@@ -1,0 +1,20 @@
+<!-- ds opensource · icon mark -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">ds opensource icon</title>
+  <desc id="desc">Open-ring with stylized d and s monogram for ds opensource.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Open ring (상단에 작은 갭 = 오픈소스 의미) -->
+    <circle cx="128" cy="128" r="100" transform="rotate(-22 128 128)" stroke-dasharray="520 72"></circle>
+
+    <!-- 'd' 모노그램: 스템 + 보울 -->
+    <path d="M88 98v60"></path>
+    <circle cx="114" cy="128" r="24"></circle>
+
+    <!-- 's' 모노그램: 부드러운 이중 곡선 -->
+    <path d="M156 112
+             Q172 112 172 124
+             Q172 136 156 136
+             Q140 136 140 148
+             Q140 160 156 160"></path>
+  </g>
+</svg>
