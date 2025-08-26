@@ -1,69 +1,97 @@
-# React + TypeScript + Vite
+# ds-portfolio-app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> 🚀 DevOps & Cloud Engineer **이동수**의 개인 포트폴리오 웹 애플리케이션
 
-Currently, two official plugins are available:
+![preview](./public/og-cover.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 📖 소개
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+이 프로젝트는 **Vite + React + TypeScript + TailwindCSS + shadcn/ui** 기반으로 만든 개인 포트폴리오 웹사이트입니다.  
+DevOps/Cloud 관련 경험과 프로젝트를 정리하고, 기술 스택과 연락처를 보여주기 위해 제작되었습니다.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- 다크 모드 지원 🌙
+- 프로젝트 검색 및 태그 필터 🔍
+- 반응형 UI 📱💻
+- Docker 컨테이너 배포 지원 🐳
+- SEO 최적화 및 오픈그래프 메타태그 적용 ✅
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠 기술 스택
+
+- **Frontend**: React 18, TypeScript, Vite
+- **UI**: Tailwind CSS, shadcn/ui, framer-motion, lucide-react
+- **Infra**: Docker, Nginx
+- **CI/CD**: GitHub Actions (Docker Build & Push)
+- **배포 대상**: Docker Hub, Kubernetes (Ingress + Service + Deployment)
+
+---
+
+## 🚀 실행 방법
+
+### 1. 개발 환경 실행
+```bash
+# 의존성 설치
+npm install
+
+# 개발 서버 실행
+npm run dev
+```
+브라우저에서 [http://localhost:5173](http://localhost:5173) 접속
+
+---
+
+### 2. 프로덕션 빌드
+```bash
+npm run build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 3. Docker 빌드 & 실행
+```bash
+# Docker 이미지 빌드
+docker build -t ds-portfolio:latest .
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 로컬 실행 (호스트 8080 → 컨테이너 80)
+docker run --rm -p 8080:80 ds-portfolio:latest
 ```
+브라우저에서 [http://localhost:8080](http://localhost:8080) 확인
+
+---
+
+## 📂 프로젝트 구조
+
+```
+ds-portfolio-app/
+├── public/               # 정적 파일 (favicon, og 이미지 등)
+├── src/
+│   ├── components/       # UI 컴포넌트
+│   │   └── ui/           # shadcn/ui 컴포넌트
+│   ├── lib/              # 공용 유틸 (cn 함수 등)
+│   ├── App.tsx           # 루트 앱
+│   ├── Portfolio.tsx     # 포트폴리오 페이지 메인
+│   └── main.tsx          # 진입점
+├── Dockerfile
+├── nginx.conf
+├── package.json
+└── README.md
+```
+
+---
+
+## 📬 연락처
+
+- 📧 Email: [dslee1371@gmail.com](mailto:dslee1371@gmail.com)  
+- 💻 GitHub: [dslee1371](https://github.com/dslee1371)  
+- 💼 LinkedIn: (추가 예정)
+
+---
+
+## 📜 라이선스
+
+이 프로젝트는 MIT License 하에 배포됩니다.  
+자유롭게 사용 및 수정하실 수 있습니다.
