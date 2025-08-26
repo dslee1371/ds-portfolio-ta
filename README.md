@@ -2,7 +2,6 @@
 
 > 🚀 DevOps & Cloud Engineer **이동수**의 개인 포트폴리오 웹 애플리케이션
 
-![preview](./public/og-cover.png)
 
 ---
 
