@@ -158,11 +158,7 @@ export default function Portfolio() {
   }, [query, activeTags]);
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-[-10%] h-72 w-72 -translate-x-1/2 rounded-full bg-primary/20 blur-3xl" />
-        <div className="absolute bottom-[-20%] left-[15%] h-96 w-96 rounded-full bg-sky-400/10 blur-3xl" />
-        <div className="absolute right-[-10%] top-1/3 h-[28rem] w-[28rem] rounded-full bg-purple-400/10 blur-3xl" />
-      </div>
+      <AnimatedBackground />
       {/* Top Bar */}
       <header className="sticky top-0 z-50 border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
@@ -195,9 +191,14 @@ export default function Portfolio() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Badge variant="secondary" className="mb-4 rounded-xl">SRE · DevOps · Cloud</Badge>
+            <Badge
+              variant="secondary"
+              className="mb-4 rounded-xl border border-primary/20 bg-gradient-to-r from-primary/20 via-sky-500/20 to-purple-500/25 text-primary"
+            >
+              SRE · DevOps · Cloud
+            </Badge>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-              안녕하세요, <span className="text-primary">이동수</span>입니다.
+              안녕하세요, <span className="bg-gradient-to-r from-primary via-sky-500 to-purple-500 bg-clip-text text-transparent">이동수</span>입니다.
             </h1>
             <p className="mt-4 text-muted-foreground text-lg leading-relaxed">
               Python과 CI/CD, Kubernetes, AWS/GCP 인프라를 기반으로
@@ -205,10 +206,17 @@ export default function Portfolio() {
               복잡한 환경을 단순화하고 운영을 코드로 관리합니다.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button asChild className="rounded-2xl">
+              <Button
+                asChild
+                className="rounded-2xl bg-gradient-to-r from-primary via-sky-600 to-purple-600 text-primary-foreground shadow-lg transition hover:scale-[1.02] hover:from-primary/90 hover:via-sky-500 hover:to-purple-500"
+              >
                 <a href="#contact"><Mail className="mr-2 h-4 w-4" />프로젝트 문의</a>
               </Button>
-              <Button asChild variant="outline" className="rounded-2xl">
+              <Button
+                asChild
+                variant="outline"
+                className="rounded-2xl border-primary/40 text-primary hover:bg-primary/10 hover:text-primary"
+              >
                 <a href="#resume">이력서 보기</a>
               </Button>
             </div>
@@ -220,14 +228,19 @@ export default function Portfolio() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.1 + idx * 0.05 }}
-                  className="rounded-2xl border bg-background/60 p-4 shadow-sm backdrop-blur"
+                  whileHover={{ y: -6 }}
+                  className="group relative overflow-hidden rounded-2xl border border-primary/20 bg-background/60 p-4 shadow-lg backdrop-blur transition-all"
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-muted-foreground">{stat.label}</span>
-                    <span className="text-primary">{stat.icon}</span>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-sky-500/15 to-purple-500/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-primary/10 blur-3xl group-hover:bg-primary/20" />
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-muted-foreground">{stat.label}</span>
+                      <span className="text-primary drop-shadow-sm">{stat.icon}</span>
+                    </div>
+                    <p className="mt-2 text-2xl font-semibold">{stat.value}</p>
+                    <p className="text-sm text-muted-foreground leading-snug">{stat.desc}</p>
                   </div>
-                  <p className="mt-2 text-2xl font-semibold">{stat.value}</p>
-                  <p className="text-sm text-muted-foreground leading-snug">{stat.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -238,10 +251,22 @@ export default function Portfolio() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.05 }}
           >
-            <Card className="rounded-3xl border-0 bg-gradient-to-br from-primary/10 via-background to-background shadow-2xl">
+            <Card className="relative overflow-hidden rounded-3xl border border-primary/10 bg-gradient-to-br from-background/95 via-primary/10 to-background shadow-2xl">
+              <motion.div
+                aria-hidden
+                className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.25),_transparent_60%)]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              />
               <CardContent className="p-6 md:p-8">
                 <p className="text-sm uppercase tracking-wider text-muted-foreground">Core Focus</p>
-                <h2 className="mt-2 text-2xl font-semibold leading-tight">안정성과 속도를 동시에 잡는 운영 전략</h2>
+                <h2 className="mt-2 text-2xl font-semibold leading-tight">
+                  안정성과 속도를 동시에 잡는
+                  <span className="ml-1 bg-gradient-to-r from-primary via-sky-500 to-purple-500 bg-clip-text text-transparent">
+                    운영 전략
+                  </span>
+                </h2>
                 <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
                   <Feature icon={<Server className="h-5 w-5" />} title="인프라" desc="EKS/RKE2 설계·운영" />
                   <Feature icon={<Boxes className="h-5 w-5" />} title="클러스터" desc="모니터링·로깅" />
@@ -276,10 +301,20 @@ export default function Portfolio() {
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
               {SKILLS.slice(0, 8).map((skill) => (
-                <div key={skill} className="rounded-2xl border bg-background/80 px-4 py-3 shadow-sm">
-                  <p className="text-sm font-medium">{skill}</p>
-                  <p className="text-xs text-muted-foreground">핵심 역량</p>
-                </div>
+                <motion.div
+                  key={skill}
+                  className="group relative overflow-hidden rounded-2xl border border-primary/10 bg-gradient-to-r from-primary/10 via-sky-500/10 to-purple-500/10 px-4 py-3 shadow-sm"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                >
+                  <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                    <div className="absolute -right-3 top-1/2 h-16 w-16 -translate-y-1/2 rounded-full bg-primary/20 blur-2xl" />
+                  </div>
+                  <div className="relative">
+                    <p className="text-sm font-medium">{skill}</p>
+                    <p className="text-xs text-muted-foreground">핵심 역량</p>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -381,14 +416,18 @@ export default function Portfolio() {
                   aria-pressed={on}
                   onClick={() => {
                     const next = new Set(activeTags);
-                    on ? next.delete(tag) : next.add(tag);
+                    if (on) {
+                      next.delete(tag);
+                    } else {
+                      next.add(tag);
+                    }
                     setActiveTags(next);
                   }}
                   className={[
-                    "rounded-xl border px-3 py-1 text-sm transition",
+                    "rounded-xl border px-3 py-1 text-sm transition-all",
                     on
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "hover:bg-muted"
+                      ? "border-transparent bg-gradient-to-r from-primary via-sky-500 to-purple-500 text-primary-foreground shadow-lg"
+                      : "hover:border-primary/40 hover:bg-primary/5"
                   ].join(" ")}
                 >
                   {tag}
@@ -424,32 +463,42 @@ export default function Portfolio() {
         {/* 결과 카드 그리드 */}
         {filtered.length ? (
           <div className="grid md:grid-cols-3 gap-6">
-            {filtered.map((p) => (
-              <Card
+            {filtered.map((p, idx) => (
+              <motion.div
                 key={p.title}
-                className="group rounded-2xl border bg-background/80 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl"
+                className="group h-full"
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                whileHover={{ y: -8 }}
               >
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg group-hover:text-primary transition-colors">{p.title}</CardTitle>
-                  <CardDescription className="leading-relaxed">{p.desc}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex flex-wrap gap-2">
-                    {p.tags.map((t) => (
-                      <Badge key={t} variant="secondary" className="rounded-xl">
-                        {t}
-                      </Badge>
-                    ))}
+                <Card className="relative h-full overflow-hidden rounded-2xl border border-primary/15 bg-gradient-to-br from-background/90 via-primary/5 to-background/95 shadow-lg transition-shadow group-hover:shadow-2xl">
+                  <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-sky-500/15 to-purple-500/20" />
                   </div>
-                  <div className="flex justify-end">
-                    <Button asChild variant="ghost" size="sm" className="rounded-xl">
-                      <a href={p.href ?? "#"} target="_blank" rel="noreferrer">
-                        자세히 보기
-                      </a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                  <CardHeader className="relative z-10 pb-3">
+                    <CardTitle className="text-lg transition-colors group-hover:text-primary">{p.title}</CardTitle>
+                    <CardDescription className="leading-relaxed">{p.desc}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="relative z-10 space-y-4">
+                    <div className="flex flex-wrap gap-2">
+                      {p.tags.map((t) => (
+                        <Badge key={t} variant="secondary" className="rounded-xl border border-primary/10 bg-primary/5 text-foreground">
+                          {t}
+                        </Badge>
+                      ))}
+                    </div>
+                    <div className="flex justify-end">
+                      <Button asChild variant="ghost" size="sm" className="rounded-xl text-primary hover:text-primary">
+                        <a href={p.href ?? "#"} target="_blank" rel="noreferrer">
+                          자세히 보기
+                        </a>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         ) : (
@@ -467,20 +516,25 @@ export default function Portfolio() {
         <h2 className="text-2xl font-bold mb-6">기술 스택</h2>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {SKILLS.map((s) => (
-            <div
+            <motion.div
               key={s}
-              className="flex items-center justify-between rounded-2xl border bg-background/70 px-4 py-3 text-sm shadow-sm"
+              className="group flex items-center justify-between overflow-hidden rounded-2xl border border-primary/15 bg-gradient-to-r from-primary/10 via-sky-500/10 to-purple-500/10 px-4 py-3 text-sm shadow-sm"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
             >
               <span className="font-medium">{s}</span>
-              <span className="h-2 w-2 rounded-full bg-primary/70" />
-            </div>
+              <span className="relative h-2 w-2">
+                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-primary via-sky-500 to-purple-500 blur-[2px]" />
+                <span className="absolute inset-[2px] rounded-full bg-background" />
+              </span>
+            </motion.div>
           ))}
         </div>
       </section>
 
       {/* Contact */}
       <section id="contact" className="mx-auto max-w-6xl px-4 py-12">
-        <Card className="relative overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-primary/15 via-background to-background">
+        <Card className="relative overflow-hidden rounded-3xl border border-primary/10 bg-gradient-to-br from-primary/20 via-sky-500/15 to-purple-500/20">
           <div className="pointer-events-none absolute inset-y-0 right-[-10%] hidden h-full w-1/2 rounded-full bg-primary/10 blur-3xl sm:block" />
           <CardHeader>
             <Badge variant="outline" className="w-fit rounded-xl">Let's talk</Badge>
@@ -532,13 +586,20 @@ export default function Portfolio() {
 
 function Feature({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
   return (
-    <div className="flex items-start gap-3 rounded-2xl border bg-background/70 p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-      <div className="mt-1 text-primary">{icon}</div>
-      <div>
+    <motion.div
+      whileHover={{ y: -4, rotate: -0.5 }}
+      transition={{ type: "spring", stiffness: 240, damping: 18 }}
+      className="group relative flex items-start gap-3 overflow-hidden rounded-2xl border border-primary/15 bg-background/70 p-4 shadow-sm"
+    >
+      <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-sky-500/10 to-purple-500/15" />
+      </div>
+      <div className="relative z-10 mt-1 text-primary">{icon}</div>
+      <div className="relative z-10">
         <p className="font-medium leading-tight">{title}</p>
         <p className="text-sm text-muted-foreground leading-snug">{desc}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -565,5 +626,61 @@ function IconLink({
         {children}
       </a>
     </Button>
+  );
+}
+
+function AnimatedBackground() {
+  const blobs = [
+    {
+      className:
+        "bg-gradient-to-br from-primary/20 via-sky-500/15 to-purple-500/25",
+      initial: { x: -120, y: -160 },
+      animate: { x: [ -160, 80, -120 ], y: [ -120, -80, -160 ], rotate: [0, 30, -15] },
+      size: "h-[28rem] w-[28rem]",
+      delay: 0,
+    },
+    {
+      className:
+        "bg-gradient-to-tr from-sky-400/25 via-blue-500/10 to-transparent",
+      initial: { x: 220, y: 140 },
+      animate: { x: [200, 120, 260], y: [120, 200, 140], rotate: [0, -25, 10] },
+      size: "h-[22rem] w-[22rem]",
+      delay: 0.3,
+    },
+    {
+      className:
+        "bg-gradient-to-br from-purple-500/25 via-fuchsia-500/10 to-transparent",
+      initial: { x: -60, y: 280 },
+      animate: { x: [-40, 60, -20], y: [260, 320, 280], rotate: [0, 18, -12] },
+      size: "h-[26rem] w-[26rem]",
+      delay: 0.6,
+    },
+  ];
+
+  return (
+    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      <motion.div
+        className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-primary/10 via-transparent to-transparent"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      />
+      {blobs.map((blob, idx) => (
+        <motion.div
+          key={idx}
+          className={`absolute ${blob.size} rounded-full blur-3xl ${blob.className}`}
+          style={{ filter: "blur(80px)" }}
+          initial={blob.initial}
+          animate={blob.animate}
+          transition={{ duration: 18, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: blob.delay }}
+        />
+      ))}
+      <motion.div
+        className="absolute bottom-0 left-1/2 h-56 w-[80%] -translate-x-1/2 bg-gradient-to-t from-purple-500/10 via-sky-500/10 to-transparent"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2, delay: 0.4 }}
+      />
+    </div>
   );
 }
