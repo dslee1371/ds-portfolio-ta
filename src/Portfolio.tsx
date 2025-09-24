@@ -49,19 +49,19 @@ type Experience = {
 const PROJECTS: Project[] = [
   {
     title: "Binance 자동 매매 시스템",
-    desc: "Python · FastAPI · MySQL · Futures API · 리스크 관리 · K8s 운영",
+    desc: "Python · FastAPI · MySQL · Futures API · 리스크 헤지 엔진 · Kubernetes 오케스트레이션",
     tags: ["Python", "Binance", "MySQL", "Kubernetes", "Prometheus"],
     href: "#",
   },
   {
     title: "네이버 부동산 스크래퍼",
-    desc: "Streamlit 대시보드 · 크롤러 · Prometheus 메트릭 · 자동 배포",
+    desc: "Streamlit 대시보드 · ETL 크롤러 · Prometheus 메트릭스 · 자동화 배포 파이프라인",
     tags: ["Streamlit", "GitOps", "Grafana", "Docker"],
     href: "#",
   },
   {
     title: "KCB DR 환경 구축",
-    desc: "AWS 다계정(EKS/EC2) · Argo CD · Helm 차트 · CI/CD 파이프라인",
+    desc: "AWS 다계정(EKS/EC2) · Argo CD · Helm 차트 · 엔터프라이즈 CI/CD 파이프라인",
     tags: ["AWS", "EKS", "Argo CD", "Helm"],
     href: "#",
   },
@@ -77,19 +77,19 @@ const STATS = [
   {
     label: "운영 경험",
     value: "10+년",
-    desc: "엔터프라이즈 & 금융권 프로젝트",
+    desc: "엔터프라이즈·금융권 미션 크리티컬 프로그램",
     icon: <Clock className="h-5 w-5" />,
   },
   {
-    label: "주요 프로젝트",
+    label: "주요 수행 과제",
     value: "35건",
-    desc: "대규모 인프라 구축 및 마이그레이션",
+    desc: "대규모 인프라스트럭처 설계·전환",
     icon: <FolderKanban className="h-5 w-5" />,
   },
   {
-    label: "안정성 지표",
+    label: "서비스 안정성 지표",
     value: "99.95%",
-    desc: "SLA 달성률 & 보안 감사 통과",
+    desc: "SLA 준수율 · 규제 감사 적합성",
     icon: <ShieldCheck className="h-5 w-5" />,
   },
 ];
@@ -99,10 +99,10 @@ const EXPERIENCES: Experience[] = [
     period: "2023 — 2024",
     role: "DevOps 리드 엔지니어",
     org: "삼성전자 RCS DDO",
-    summary: "클라우드 네이티브 전환과 배포 자동화 체계를 총괄",
+    summary: "클라우드 네이티브 전환 전략과 배포 자동화 거버넌스를 총괄",
     highlights: [
-      "EKS 기반 멀티존 아키텍처와 GitOps 파이프라인 구축",
-      "Terraform · Argo CD로 IaC 및 배포 자동화 도입",
+      "EKS 멀티 AZ 아키텍처와 GitOps 파이프라인을 설계·도입",
+      "Terraform · Argo CD 기반 IaC/배포 자동화 거버넌스 확립",
     ],
     stack: ["AWS", "EKS", "Terraform", "Argo CD", "GitOps"],
   },
@@ -110,10 +110,10 @@ const EXPERIENCES: Experience[] = [
     period: "2022 — 2023",
     role: "SRE/DevOps 컨설턴트",
     org: "KB국민카드 MSP",
-    summary: "금융권 Kubernetes 운영 안정화 및 관제 고도화",
+    summary: "금융권 Kubernetes 운영 안정화와 관측 체계 고도화",
     highlights: [
-      "GitLab CI · Argo Rollouts 기반 점진적 배포 설계",
-      "Prometheus/Grafana, Loki 스택으로 모니터링 표준화",
+      "GitLab CI · Argo Rollouts 기반 점진적 배포 전략 설계",
+      "Prometheus/Grafana · Loki 스택으로 관측성 표준화",
     ],
     stack: ["Kubernetes", "GitLab CI", "Argo Rollouts", "Prometheus", "Grafana"],
   },
@@ -121,10 +121,10 @@ const EXPERIENCES: Experience[] = [
     period: "2019 — 2022",
     role: "플랫폼 엔지니어",
     org: "다수 공공·금융 인프라",
-    summary: "보안·네트워크를 포함한 통합 운영 플랫폼 구축",
+    summary: "보안·네트워크를 아우르는 통합 운영 플랫폼 구축",
     highlights: [
-      "AD/보안 인프라 프로젝트 PL/PM, 재해복구 시나리오 수립",
-      "자동화 스크립트와 파이프라인으로 운영 표준화",
+      "AD·보안 인프라 프로그램 PL/PM 및 재해복구 시나리오 수립",
+      "자동화 스크립트와 파이프라인으로 운영 표준 절차화",
     ],
     stack: ["Ansible", "Python", "VMware", "Security", "DR"],
   },
@@ -166,13 +166,13 @@ export default function Portfolio() {
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10">
               <Rocket className="h-4 w-4" />
             </span>
-            <span>이동수 · DevOps & Cloud</span>
+            <span>이동수 · DevOps & Cloud Architect</span>
           </div>
           <nav className="hidden md:flex items-center gap-4 text-sm">
             <a href="#about" className="hover:text-primary">소개</a>
             <a href="#projects" className="hover:text-primary">프로젝트</a>
             <a href="#skills" className="hover:text-primary">기술스택</a>
-            <a href="#contact" className="hover:text-primary">연락</a>
+            <a href="#contact" className="hover:text-primary">문의</a>
           </nav>
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -195,22 +195,22 @@ export default function Portfolio() {
               variant="secondary"
               className="mb-4 rounded-xl border border-primary/20 bg-gradient-to-r from-primary/20 via-sky-500/20 to-purple-500/25 text-primary"
             >
-              SRE · DevOps · Cloud
+              SRE · DevOps · Cloud Architecture
             </Badge>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight">
               안녕하세요, <span className="bg-gradient-to-r from-primary via-sky-500 to-purple-500 bg-clip-text text-transparent">이동수</span>입니다.
             </h1>
             <p className="mt-4 text-muted-foreground text-lg leading-relaxed">
-              Python과 CI/CD, Kubernetes, AWS/GCP 인프라를 기반으로
-              안정적인 시스템을 설계·자동화하는 DevOps/클라우드 엔지니어입니다.
-              복잡한 환경을 단순화하고 운영을 코드로 관리합니다.
+              Python 기반 CI/CD 파이프라인과 Kubernetes, AWS/GCP 인프라스트럭처를 토대로
+              미션 크리티컬 서비스를 설계하고 자동화하는 DevOps/클라우드 아키텍트입니다.
+              복잡한 운영 환경을 구조화된 표준과 코드 중심 거버넌스로 정렬합니다.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button
                 asChild
                 className="rounded-2xl bg-gradient-to-r from-primary via-sky-600 to-purple-600 text-primary-foreground shadow-lg transition hover:scale-[1.02] hover:from-primary/90 hover:via-sky-500 hover:to-purple-500"
               >
-                <a href="#contact"><Mail className="mr-2 h-4 w-4" />프로젝트 문의</a>
+                <a href="#contact"><Mail className="mr-2 h-4 w-4" />프로젝트 상담 요청</a>
               </Button>
               <Button
                 asChild
@@ -262,18 +262,18 @@ export default function Portfolio() {
               <CardContent className="p-6 md:p-8">
                 <p className="text-sm uppercase tracking-wider text-muted-foreground">Core Focus</p>
                 <h2 className="mt-2 text-2xl font-semibold leading-tight">
-                  안정성과 속도를 동시에 잡는
+                  안정성과 민첩성을 균형화한
                   <span className="ml-1 bg-gradient-to-r from-primary via-sky-500 to-purple-500 bg-clip-text text-transparent">
-                    운영 전략
+                    운영 전략 프레임워크
                   </span>
                 </h2>
                 <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
-                  <Feature icon={<Server className="h-5 w-5" />} title="인프라" desc="EKS/RKE2 설계·운영" />
-                  <Feature icon={<Boxes className="h-5 w-5" />} title="클러스터" desc="모니터링·로깅" />
-                  <Feature icon={<Cloud className="h-5 w-5" />} title="클라우드" desc="AWS·GCP·VPC" />
-                  <Feature icon={<Cpu className="h-5 w-5" />} title="자동화" desc="IaC·CI/CD" />
-                  <Feature icon={<Rocket className="h-5 w-5" />} title="딜리버리" desc="GitOps·배포" />
-                  <Feature icon={<Github className="h-5 w-5" />} title="개발" desc="Python·API" />
+                  <Feature icon={<Server className="h-5 w-5" />} title="인프라" desc="EKS/RKE2 멀티클러스터 아키텍처" />
+                  <Feature icon={<Boxes className="h-5 w-5" />} title="클러스터" desc="관측성·로깅 스택 표준화" />
+                  <Feature icon={<Cloud className="h-5 w-5" />} title="클라우드" desc="AWS·GCP 네트워크 레퍼런스" />
+                  <Feature icon={<Cpu className="h-5 w-5" />} title="자동화" desc="IaC·CI/CD 거버넌스" />
+                  <Feature icon={<Rocket className="h-5 w-5" />} title="딜리버리" desc="GitOps·릴리즈 전략" />
+                  <Feature icon={<Github className="h-5 w-5" />} title="개발" desc="Python·API 오케스트레이션" />
                 </div>
               </CardContent>
             </Card>
@@ -292,11 +292,11 @@ export default function Portfolio() {
           </div>
           <div className="md:col-span-2 space-y-4 leading-relaxed">
             <p>
-              대기업 및 금융권 프로젝트에서 Kubernetes 기반 운영과 CI/CD, IaC, 모니터링 체계를 구축했습니다.
-              네트워크·보안·배포 파이프라인을 통합 설계하여 복잡한 이슈를 빠르게 안정화합니다.
+              대기업과 금융권 환경에서 Kubernetes 중심의 운영 플랫폼, CI/CD 체계, IaC·Observability 프레임워크를 설계하고 고도화했습니다.
+              네트워크·보안·배포 파이프라인을 통합 설계해 복잡한 운영 이슈를 신속하게 안정화합니다.
             </p>
             <p className="text-sm text-muted-foreground">
-              대표 경험: 삼성전자 RCS DDO(2023–2024, EKS·Terraform·Argo),
+              대표 이력: 삼성전자 RCS DDO(2023–2024, EKS·Terraform·Argo),
               KB국민카드 MSP(2022–2023, EKS·GitLab CI/CD), 다수의 AD·보안 인프라 프로젝트 PL/PM 수행.
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -312,7 +312,7 @@ export default function Portfolio() {
                   </div>
                   <div className="relative">
                     <p className="text-sm font-medium">{skill}</p>
-                    <p className="text-xs text-muted-foreground">핵심 역량</p>
+                    <p className="text-xs text-muted-foreground">주요 전문 분야</p>
                   </div>
                 </motion.div>
               ))}
@@ -327,7 +327,7 @@ export default function Portfolio() {
           <div>
             <h2 className="text-2xl font-bold">경력 하이라이트</h2>
             <p className="mt-2 text-muted-foreground text-sm">
-              팀 빌딩부터 배포 자동화, 가시성 확보까지 엔드투엔드로 리드한 프로젝트들을 요약했습니다.
+              팀 조직화부터 배포 자동화, 관측성 확보까지 엔드투엔드로 주도한 프로그램을 요약했습니다.
             </p>
           </div>
           <div className="relative">
@@ -492,7 +492,7 @@ export default function Portfolio() {
                     <div className="flex justify-end">
                       <Button asChild variant="ghost" size="sm" className="rounded-xl text-primary hover:text-primary">
                         <a href={p.href ?? "#"} target="_blank" rel="noreferrer">
-                          자세히 보기
+                          상세 보기
                         </a>
                       </Button>
                     </div>
@@ -504,7 +504,7 @@ export default function Portfolio() {
         ) : (
           <Card className="rounded-2xl">
             <CardContent className="py-10 text-center text-muted-foreground">
-              검색 조건에 맞는 프로젝트가 없어요.
+              검색 조건에 부합하는 프로젝트가 없습니다.
             </CardContent>
           </Card>
         )}
@@ -538,16 +538,15 @@ export default function Portfolio() {
           <div className="pointer-events-none absolute inset-y-0 right-[-10%] hidden h-full w-1/2 rounded-full bg-primary/10 blur-3xl sm:block" />
           <CardHeader>
             <Badge variant="outline" className="w-fit rounded-xl">Let's talk</Badge>
-            <CardTitle className="text-3xl">프로젝트 문의</CardTitle>
+            <CardTitle className="text-3xl">프로젝트 컨설팅 문의</CardTitle>
             <CardDescription className="max-w-2xl text-base text-muted-foreground">
-              간단한 요구사항만 공유해주셔도 좋아요. 목표와 우선순위를 명확히 정리해
-              실행 전략을 제안드립니다.
+              핵심 요구사항을 공유해 주시면 비즈니스 목표와 우선순위에 맞춘 실행 전략을 설계해 드립니다.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-3">
               <Button asChild className="rounded-2xl">
-                <a href="mailto:dslee1371@gmail.com"><Mail className="mr-2 h-4 w-4" />이메일 보내기</a>
+                <a href="mailto:dslee1371@gmail.com"><Mail className="mr-2 h-4 w-4" />이메일 상담</a>
               </Button>
               <Button asChild variant="outline" className="rounded-2xl">
                 <a href="https://github.com/dslee1371" target="_blank" rel="noreferrer"><Github className="mr-2 h-4 w-4" />GitHub</a>
