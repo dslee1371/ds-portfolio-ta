@@ -2,9 +2,11 @@ import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const STORAGE_KEY = "theme"; // "light" | "dark" | "system"
+type ThemeMode = "light" | "dark" | "system";
 
-function applyTheme(theme: "light" | "dark" | "system") {
+const STORAGE_KEY = "theme";
+
+function applyTheme(theme: ThemeMode) {
   const root = document.documentElement;
   const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const isDark = theme === "dark" || (theme === "system" && systemDark);
@@ -12,9 +14,10 @@ function applyTheme(theme: "light" | "dark" | "system") {
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = React.useState<"light" | "dark" | "system">(
-    (localStorage.getItem(STORAGE_KEY) as any) || "system"
-  );
+  const [theme, setTheme] = React.useState<ThemeMode>(() => {
+    const stored = localStorage.getItem(STORAGE_KEY) as ThemeMode | null;
+    return stored ?? "system";
+  });
 
   React.useEffect(() => {
     // 초기 적용 + 시스템 테마 변화 감지
@@ -23,7 +26,7 @@ export function ThemeToggle() {
 
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = () => {
-      const stored = (localStorage.getItem(STORAGE_KEY) as any) || "system";
+      const stored = (localStorage.getItem(STORAGE_KEY) as ThemeMode | null) ?? "system";
       if (stored === "system") applyTheme("system");
     };
     mq.addEventListener?.("change", handler);
@@ -49,7 +52,7 @@ export function ThemeToggle() {
       <select
         className="hidden md:block bg-transparent text-sm outline-none"
         value={theme}
-        onChange={(e) => setTheme(e.target.value as any)}
+        onChange={(e) => setTheme(e.target.value as ThemeMode)}
         aria-label="Theme mode"
         title="Theme mode"
       >
