@@ -68,7 +68,7 @@ export function BackToTop() {
           : "pointer-events-none translate-y-4 opacity-0"
       )}
     >
-      <ArrowUp className="h-5 w-5" />
+      <ArrowUp className="h-5 w-5" aria-hidden="true" />
     </button>
   );
 }

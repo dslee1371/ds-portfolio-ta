@@ -168,6 +168,9 @@ export default function Portfolio() {
     setIsLoading(false);
   }, []);
 
+  const searchFieldId = React.useId();
+  const searchSummaryId = React.useId();
+
   const filtered = React.useMemo(() => {
     if (!projects.length) {
       return [];
@@ -195,11 +198,14 @@ export default function Portfolio() {
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2 font-semibold">
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10">
-              <Rocket className="h-4 w-4" />
+              <Rocket className="h-4 w-4" aria-hidden="true" />
             </span>
             <span>이동수 · DevOps & Cloud Architect</span>
           </div>
-          <nav className="hidden md:flex items-center gap-4 text-sm">
+          <nav
+            className="hidden md:flex items-center gap-4 text-sm"
+            aria-label="Primary"
+          >
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.id}
@@ -218,9 +224,15 @@ export default function Portfolio() {
           </nav>
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <IconLink href="mailto:dslee1371@gmail.com" label="email"><Mail className="h-5 w-5" /></IconLink>
-            <IconLink href="https://github.com/dslee1371" label="github" newTab><Github className="h-5 w-5" /></IconLink>
-            <IconLink href="#" label="linkedin" newTab><Linkedin className="h-5 w-5" /></IconLink>
+            <IconLink href="mailto:dslee1371@gmail.com" label="email">
+              <Mail className="h-5 w-5" aria-hidden="true" />
+            </IconLink>
+            <IconLink href="https://github.com/dslee1371" label="github" newTab>
+              <Github className="h-5 w-5" aria-hidden="true" />
+            </IconLink>
+            <IconLink href="#" label="linkedin" newTab>
+              <Linkedin className="h-5 w-5" aria-hidden="true" />
+            </IconLink>
           </div>
         </div>
       </header>
@@ -252,7 +264,7 @@ export default function Portfolio() {
                 asChild
                 className="rounded-2xl bg-gradient-to-r from-primary via-sky-600 to-purple-600 text-primary-foreground shadow-lg transition hover:scale-[1.02] hover:from-primary/90 hover:via-sky-500 hover:to-purple-500"
               >
-                <a href="#contact"><Mail className="mr-2 h-4 w-4" />프로젝트 상담 요청</a>
+                <a href="#contact"><Mail className="mr-2 h-4 w-4" aria-hidden="true" />프로젝트 상담 요청</a>
               </Button>
               <Button
                 asChild
@@ -278,7 +290,9 @@ export default function Portfolio() {
                   <div className="relative z-10">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-muted-foreground">{stat.label}</span>
-                      <span className="text-primary drop-shadow-sm">{stat.icon}</span>
+                      <span className="text-primary drop-shadow-sm" aria-hidden="true">
+                        {stat.icon}
+                      </span>
                     </div>
                     <p className="mt-2 text-2xl font-semibold">{stat.value}</p>
                     <p className="text-sm text-muted-foreground leading-snug">{stat.desc}</p>
@@ -317,12 +331,12 @@ export default function Portfolio() {
                   </span>
                 </h2>
                 <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
-                  <Feature icon={<Server className="h-5 w-5" />} title="인프라" desc="EKS/RKE2 멀티클러스터 아키텍처" />
-                  <Feature icon={<Boxes className="h-5 w-5" />} title="클러스터" desc="관측성·로깅 스택 표준화" />
-                  <Feature icon={<Cloud className="h-5 w-5" />} title="클라우드" desc="AWS·GCP 네트워크 레퍼런스" />
-                  <Feature icon={<Cpu className="h-5 w-5" />} title="자동화" desc="IaC·CI/CD 거버넌스" />
-                  <Feature icon={<Rocket className="h-5 w-5" />} title="딜리버리" desc="GitOps·릴리즈 전략" />
-                  <Feature icon={<Github className="h-5 w-5" />} title="개발" desc="Python·API 오케스트레이션" />
+                  <Feature icon={<Server className="h-5 w-5" aria-hidden="true" />} title="인프라" desc="EKS/RKE2 멀티클러스터 아키텍처" />
+                  <Feature icon={<Boxes className="h-5 w-5" aria-hidden="true" />} title="클러스터" desc="관측성·로깅 스택 표준화" />
+                  <Feature icon={<Cloud className="h-5 w-5" aria-hidden="true" />} title="클라우드" desc="AWS·GCP 네트워크 레퍼런스" />
+                  <Feature icon={<Cpu className="h-5 w-5" aria-hidden="true" />} title="자동화" desc="IaC·CI/CD 거버넌스" />
+                  <Feature icon={<Rocket className="h-5 w-5" aria-hidden="true" />} title="딜리버리" desc="GitOps·릴리즈 전략" />
+                  <Feature icon={<Github className="h-5 w-5" aria-hidden="true" />} title="개발" desc="Python·API 오케스트레이션" />
                 </div>
               </CardContent>
             </Card>
@@ -434,11 +448,19 @@ export default function Portfolio() {
         <div className="mb-4 flex flex-col gap-3">
           {/* 검색창 */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <label htmlFor={searchFieldId} className="sr-only">
+              프로젝트 검색어 입력
+            </label>
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
+              aria-hidden="true"
+            />
             <Input
               placeholder="프로젝트 검색 (제목/설명/태그)"
               className="pl-9"
               value={query}
+              id={searchFieldId}
+              aria-describedby={searchSummaryId}
               // onChange={(e) => setQuery(e.target.value)}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
             />
@@ -449,7 +471,7 @@ export default function Portfolio() {
                 className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground"
                 onClick={() => setQuery("")}
               >
-                <X className="h-4 w-4" />
+                <X className="h-4 w-4" aria-hidden="true" />
               </button>
             )}
           </div>
@@ -497,7 +519,11 @@ export default function Portfolio() {
           </div>
 
           {/* 결과 요약 */}
-          <div className="text-sm text-muted-foreground">
+          <div
+            id={searchSummaryId}
+            className="text-sm text-muted-foreground"
+            aria-live="polite"
+          >
             {isLoading ? (
               <>프로젝트 로딩 중...</>
             ) : (
@@ -581,13 +607,13 @@ export default function Portfolio() {
           <CardContent>
             <div className="flex flex-wrap gap-3">
               <Button asChild className="rounded-2xl">
-                <a href="mailto:dslee1371@gmail.com"><Mail className="mr-2 h-4 w-4" />이메일 상담</a>
+                <a href="mailto:dslee1371@gmail.com"><Mail className="mr-2 h-4 w-4" aria-hidden="true" />이메일 상담</a>
               </Button>
               <Button asChild variant="outline" className="rounded-2xl">
-                <a href="https://github.com/dslee1371" target="_blank" rel="noreferrer"><Github className="mr-2 h-4 w-4" />GitHub</a>
+                <a href="https://github.com/dslee1371" target="_blank" rel="noreferrer"><Github className="mr-2 h-4 w-4" aria-hidden="true" />GitHub</a>
               </Button>
               <Button asChild variant="outline" className="rounded-2xl">
-                <a href="#" target="_blank" rel="noreferrer"><Linkedin className="mr-2 h-4 w-4" />LinkedIn</a>
+                <a href="#" target="_blank" rel="noreferrer"><Linkedin className="mr-2 h-4 w-4" aria-hidden="true" />LinkedIn</a>
               </Button>
             </div>
           </CardContent>
@@ -693,7 +719,10 @@ function AnimatedBackground() {
   ];
 
   return (
-    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div
+      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+      aria-hidden="true"
+    >
       <motion.div
         className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-primary/10 via-transparent to-transparent"
         initial={{ opacity: 0 }}
