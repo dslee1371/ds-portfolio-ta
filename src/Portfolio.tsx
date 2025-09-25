@@ -26,6 +26,9 @@ import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
 
 import LazyImage from "@/components/media/LazyImage";
+import { BackToTop } from "@/components/common/BackToTop";
+import useSectionSpy from "@/hooks/useSectionSpy";
+import { cn } from "@/lib/utils";
 
 
 
@@ -79,6 +82,13 @@ const SKILLS = [
   "Terraform", "Ansible", "Docker", "Nginx", "Prometheus/Grafana",
   "AWS", "GCP", "MySQL", "Python", "Streamlit"
 ];
+
+const NAV_ITEMS = [
+  { id: "about", label: "소개" },
+  { id: "projects", label: "프로젝트" },
+  { id: "skills", label: "기술스택" },
+  { id: "contact", label: "문의" },
+] as const;
 
 const STATS = [
   {
@@ -149,6 +159,9 @@ export default function Portfolio() {
   const [projects, setProjects] = React.useState<Project[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
+  const sectionIds = React.useMemo(() => NAV_ITEMS.map((item) => item.id), []);
+  const activeSection = useSectionSpy(sectionIds);
+
   React.useEffect(() => {
     setProjects(PROJECTS);
     setIsLoading(false);
@@ -186,10 +199,21 @@ export default function Portfolio() {
             <span>이동수 · DevOps & Cloud Architect</span>
           </div>
           <nav className="hidden md:flex items-center gap-4 text-sm">
-            <a href="#about" className="hover:text-primary">소개</a>
-            <a href="#projects" className="hover:text-primary">프로젝트</a>
-            <a href="#skills" className="hover:text-primary">기술스택</a>
-            <a href="#contact" className="hover:text-primary">문의</a>
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                className={cn(
+                  "relative px-1 py-2 transition-colors",
+                  activeSection === item.id
+                    ? "text-primary after:absolute after:bottom-1 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-primary"
+                    : "text-muted-foreground hover:text-primary"
+                )}
+                aria-current={activeSection === item.id ? "true" : undefined}
+              >
+                {item.label}
+              </a>
+            ))}
           </nav>
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -618,6 +642,7 @@ export default function Portfolio() {
           </div>
         </div>
       </footer>
+      <BackToTop />
     </div>
   );
 }
