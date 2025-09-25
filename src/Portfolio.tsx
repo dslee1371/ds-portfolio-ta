@@ -22,6 +22,7 @@ import { Separator } from "@/components/ui/separator";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 import CardSkeleton from "@/components/skeleton/CardSkeleton";
+import ProjectCard from "@/components/ProjectCard";
 import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
 
@@ -524,48 +525,15 @@ export default function Portfolio() {
         ) : filtered.length ? (
           <div className="grid md:grid-cols-3 gap-6">
             {filtered.map((p, idx) => (
-              <motion.div
+              <ProjectCard
                 key={p.title}
-                className="group h-full"
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-                whileHover={{ y: -8 }}
-              >
-                <Card className="relative h-full overflow-hidden rounded-2xl border border-primary/15 bg-gradient-to-br from-background/90 via-primary/5 to-background/95 shadow-lg transition-shadow group-hover:shadow-2xl">
-                  <div className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-sky-500/15 to-purple-500/20" />
-                  </div>
-                  <LazyImage
-                    src={p.image}
-                    alt={`${p.title} 프로젝트 썸네일 이미지`}
-                    containerClassName="relative z-10 aspect-video w-full bg-gradient-to-br from-background via-muted/40 to-background"
-                    className="object-contain p-4"
-                    skeletonClassName="bg-muted/60"
-                  />
-                  <CardHeader className="relative z-20 space-y-2 px-6 pt-6 pb-3">
-                    <CardTitle className="text-lg transition-colors group-hover:text-primary">{p.title}</CardTitle>
-                    <CardDescription className="leading-relaxed">{p.desc}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="relative z-20 space-y-4">
-                    <div className="flex flex-wrap gap-2">
-                      {p.tags.map((t) => (
-                        <Badge key={t} variant="secondary" className="rounded-xl border border-primary/10 bg-primary/5 text-foreground">
-                          {t}
-                        </Badge>
-                      ))}
-                    </div>
-                    <div className="flex justify-end">
-                      <Button asChild variant="ghost" size="sm" className="rounded-xl text-primary hover:text-primary">
-                        <a href={p.href ?? "#"} target="_blank" rel="noreferrer">
-                          상세 보기
-                        </a>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                title={p.title}
+                description={p.desc}
+                tags={p.tags}
+                image={p.image}
+                href={p.href}
+                index={idx}
+              />
             ))}
           </div>
         ) : (
