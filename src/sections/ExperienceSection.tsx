@@ -43,8 +43,8 @@ export default function ExperienceSection() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-10">
       <div className="grid gap-6 md:grid-cols-[280px_1fr]">
-        <div>
-          <h2 className="text-2xl font-bold">경력 하이라이트</h2>
+        <div className="max-w-[72ch]">
+          <h2 className="font-bold text-balance">경력 하이라이트</h2>
           <p className="mt-2 text-muted-foreground text-sm">
             팀 조직화부터 배포 자동화, 관측성 확보까지 엔드투엔드로 주도한 프로그램을 요약했습니다.
           </p>

@@ -25,10 +25,10 @@ export default function AboutSection() {
     <section id="about" className="mx-auto max-w-6xl px-4 py-8">
       <div className="grid md:grid-cols-3 gap-8">
         <div>
-          <h2 className="text-2xl font-bold">소개</h2>
+          <h2 className="font-bold text-balance">소개</h2>
           <p className="mt-2 text-muted-foreground">Who I am</p>
         </div>
-        <div className="md:col-span-2 space-y-4 leading-relaxed">
+        <div className="md:col-span-2 space-y-4 leading-relaxed max-w-[72ch]">
           <p>
             대기업과 금융권 환경에서 Kubernetes 중심의 운영 플랫폼, CI/CD 체계, IaC·Observability 프레임워크를 설계하고 고도화했습니다.
             네트워크·보안·배포 파이프라인을 통합 설계해 복잡한 운영 이슈를 신속하게 안정화합니다.

@@ -13,8 +13,8 @@ export default function ContactSection() {
           <Badge variant="outline" className="w-fit rounded-xl">
             Let's talk
           </Badge>
-          <CardTitle className="text-3xl">프로젝트 컨설팅 문의</CardTitle>
-          <CardDescription className="max-w-2xl text-base text-muted-foreground">
+          <CardTitle className="text-balance">프로젝트 컨설팅 문의</CardTitle>
+          <CardDescription className="max-w-[72ch] text-base text-muted-foreground">
             핵심 요구사항을 공유해 주시면 비즈니스 목표와 우선순위에 맞춘 실행 전략을 설계해 드립니다.
           </CardDescription>
         </CardHeader>
