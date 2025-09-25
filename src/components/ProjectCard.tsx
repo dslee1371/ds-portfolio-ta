@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import LazyImage from "@/components/media/LazyImage";
 import { cn } from "@/lib/utils";
@@ -30,12 +29,21 @@ export default function ProjectCard({
   index = 0,
   className,
 }: ProjectCardProps) {
+  const MotionWrapper = href ? motion.a : motion.article;
+  const isExternalLink = href ? /^https?:/i.test(href) : false;
+
   return (
-    <motion.div
-      role="group"
-      tabIndex={0}
+    <MotionWrapper
+      {...(href
+        ? {
+            href,
+            ...(isExternalLink ? { target: "_blank", rel: "noreferrer" } : {}),
+            "aria-label": `${title} 프로젝트 상세 보기`,
+          }
+        : {})}
+      role={href ? undefined : "group"}
       className={cn(
-        "group relative h-full rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "group relative block h-full rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         className,
       )}
       variants={fadeUp}
@@ -79,15 +87,13 @@ export default function ProjectCard({
               </Badge>
             ))}
           </div>
-          <div className="flex justify-end">
-            <Button asChild variant="ghost" size="sm" className="rounded-xl text-primary hover:text-primary">
-              <a href={href ?? "#"} target="_blank" rel="noreferrer">
-                상세 보기
-              </a>
-            </Button>
-          </div>
+          {href ? (
+            <div className="flex justify-end">
+              <span className="text-sm font-medium text-primary">상세 보기</span>
+            </div>
+          ) : null}
         </CardContent>
       </Card>
-    </motion.div>
+    </MotionWrapper>
   );
 }
