@@ -15,74 +15,29 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
 import { ThemeToggle } from "@/components/ThemeToggle";
-
-import CardSkeleton from "@/components/skeleton/CardSkeleton";
-import ProjectCard from "@/components/ProjectCard";
-import { Input } from "@/components/ui/input";
-import { Search, X } from "lucide-react";
 
 import LazyImage from "@/components/media/LazyImage";
 import { BackToTop } from "@/components/common/BackToTop";
 import useSectionSpy from "@/hooks/useSectionSpy";
 import { cn } from "@/lib/utils";
 
+const AboutSection = React.lazy(() => import("./sections/AboutSection"));
+const ExperienceSection = React.lazy(() => import("./sections/ExperienceSection"));
+const ProjectsSection = React.lazy(() => import("./sections/ProjectsSection"));
+const SkillsSection = React.lazy(() => import("./sections/SkillsSection"));
+const ContactSection = React.lazy(() => import("./sections/ContactSection"));
 
-
-// ---------------------------
-// Portfolio — Single File
-// ---------------------------
-
-type Project = {
-  title: string;
-  desc: string;
-  tags: string[];
-  href?: string;
-  image: string;
+const SECTION_PREFETCHERS: Record<string, () => Promise<unknown>> = {
+  about: () => import("./sections/AboutSection"),
+  projects: () => import("./sections/ProjectsSection"),
+  skills: () => import("./sections/SkillsSection"),
+  contact: () => import("./sections/ContactSection"),
 };
-
-type Experience = {
-  period: string;
-  role: string;
-  org: string;
-  summary: string;
-  highlights: string[];
-  stack: string[];
-};
-
-const PROJECTS: Project[] = [
-  {
-    title: "Binance 자동 매매 시스템",
-    desc: "Python · FastAPI · MySQL · Futures API · 리스크 헤지 엔진 · Kubernetes 오케스트레이션",
-    tags: ["Python", "Binance", "MySQL", "Kubernetes", "Prometheus"],
-    href: "#",
-    image: "/ci-ds.svg",
-  },
-  {
-    title: "네이버 부동산 스크래퍼",
-    desc: "Streamlit 대시보드 · ETL 크롤러 · Prometheus 메트릭스 · 자동화 배포 파이프라인",
-    tags: ["Streamlit", "GitOps", "Grafana", "Docker"],
-    href: "#",
-    image: "/vite.svg",
-  },
-  {
-    title: "KCB DR 환경 구축",
-    desc: "AWS 다계정(EKS/EC2) · Argo CD · Helm 차트 · 엔터프라이즈 CI/CD 파이프라인",
-    tags: ["AWS", "EKS", "Argo CD", "Helm"],
-    href: "#",
-    image: "/ci-ds.svg",
-  },
-];
-
-const SKILLS = [
-  "Kubernetes", "Helm", "Kustomize", "Argo CD", "Jenkins", "GitHub Actions",
-  "Terraform", "Ansible", "Docker", "Nginx", "Prometheus/Grafana",
-  "AWS", "GCP", "MySQL", "Python", "Streamlit"
-];
 
 const NAV_ITEMS = [
   { id: "about", label: "소개" },
@@ -112,84 +67,17 @@ const STATS = [
   },
 ];
 
-const EXPERIENCES: Experience[] = [
-  {
-    period: "2023 — 2024",
-    role: "DevOps 리드 엔지니어",
-    org: "삼성전자 RCS DDO",
-    summary: "클라우드 네이티브 전환 전략과 배포 자동화 거버넌스를 총괄",
-    highlights: [
-      "EKS 멀티 AZ 아키텍처와 GitOps 파이프라인을 설계·도입",
-      "Terraform · Argo CD 기반 IaC/배포 자동화 거버넌스 확립",
-    ],
-    stack: ["AWS", "EKS", "Terraform", "Argo CD", "GitOps"],
-  },
-  {
-    period: "2022 — 2023",
-    role: "SRE/DevOps 컨설턴트",
-    org: "KB국민카드 MSP",
-    summary: "금융권 Kubernetes 운영 안정화와 관측 체계 고도화",
-    highlights: [
-      "GitLab CI · Argo Rollouts 기반 점진적 배포 전략 설계",
-      "Prometheus/Grafana · Loki 스택으로 관측성 표준화",
-    ],
-    stack: ["Kubernetes", "GitLab CI", "Argo Rollouts", "Prometheus", "Grafana"],
-  },
-  {
-    period: "2019 — 2022",
-    role: "플랫폼 엔지니어",
-    org: "다수 공공·금융 인프라",
-    summary: "보안·네트워크를 아우르는 통합 운영 플랫폼 구축",
-    highlights: [
-      "AD·보안 인프라 프로그램 PL/PM 및 재해복구 시나리오 수립",
-      "자동화 스크립트와 파이프라인으로 운영 표준 절차화",
-    ],
-    stack: ["Ansible", "Python", "VMware", "Security", "DR"],
-  },
-];
-
-// 모든 프로젝트의 태그를 수집해서 정렬
-const ALL_TAGS = Array.from(
-  new Set(PROJECTS.flatMap((p) => p.tags))
-).sort();
-
 export default function Portfolio() {
-  // Portfolio() 내부, return 위쪽에 추가
-  const [query, setQuery] = React.useState("");
-  const [activeTags, setActiveTags] = React.useState<Set<string>>(new Set());
-  const [projects, setProjects] = React.useState<Project[]>([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-
   const sectionIds = React.useMemo(() => NAV_ITEMS.map((item) => item.id), []);
   const activeSection = useSectionSpy(sectionIds);
 
-  React.useEffect(() => {
-    setProjects(PROJECTS);
-    setIsLoading(false);
+  const handlePrefetch = React.useCallback((id: string) => {
+    const loader = SECTION_PREFETCHERS[id];
+    if (loader) {
+      void loader();
+    }
   }, []);
 
-  const searchFieldId = React.useId();
-  const searchSummaryId = React.useId();
-
-  const filtered = React.useMemo(() => {
-    if (!projects.length) {
-      return [];
-    }
-    const q = query.trim().toLowerCase();
-    return projects.filter((p) => {
-      const matchesQuery =
-        !q ||
-        p.title.toLowerCase().includes(q) ||
-        p.desc.toLowerCase().includes(q) ||
-        p.tags.some((t) => t.toLowerCase().includes(q));
-
-      const matchesTags =
-        activeTags.size === 0 ||
-        Array.from(activeTags).every((t) => p.tags.includes(t)); // AND 조건
-
-      return matchesQuery && matchesTags;
-    });
-  }, [projects, query, activeTags]);
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
       <AnimatedBackground />
@@ -217,6 +105,8 @@ export default function Portfolio() {
                     : "text-muted-foreground hover:text-primary"
                 )}
                 aria-current={activeSection === item.id ? "true" : undefined}
+                onMouseEnter={() => handlePrefetch(item.id)}
+                onFocus={() => handlePrefetch(item.id)}
               >
                 {item.label}
               </a>
@@ -346,281 +236,26 @@ export default function Portfolio() {
 
       <Separator className="my-8" />
 
-      {/* About */}
-      <section id="about" className="mx-auto max-w-6xl px-4 py-8">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div>
-            <h2 className="text-2xl font-bold">소개</h2>
-            <p className="mt-2 text-muted-foreground">Who I am</p>
-          </div>
-          <div className="md:col-span-2 space-y-4 leading-relaxed">
-            <p>
-              대기업과 금융권 환경에서 Kubernetes 중심의 운영 플랫폼, CI/CD 체계, IaC·Observability 프레임워크를 설계하고 고도화했습니다.
-              네트워크·보안·배포 파이프라인을 통합 설계해 복잡한 운영 이슈를 신속하게 안정화합니다.
-            </p>
-            <p className="text-sm text-muted-foreground">
-              대표 이력: 삼성전자 RCS DDO(2023–2024, EKS·Terraform·Argo),
-              KB국민카드 MSP(2022–2023, EKS·GitLab CI/CD), 다수의 AD·보안 인프라 프로젝트 PL/PM 수행.
-            </p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {SKILLS.slice(0, 8).map((skill) => (
-                <motion.div
-                  key={skill}
-                  className="group relative overflow-hidden rounded-2xl border border-primary/10 bg-gradient-to-r from-primary/10 via-sky-500/10 to-purple-500/10 px-4 py-3 shadow-sm"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 18 }}
-                >
-                  <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    <div className="absolute -right-3 top-1/2 h-16 w-16 -translate-y-1/2 rounded-full bg-primary/20 blur-2xl" />
-                  </div>
-                  <div className="relative">
-                    <p className="text-sm font-medium">{skill}</p>
-                    <p className="text-xs text-muted-foreground">주요 전문 분야</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <React.Suspense fallback={<SectionFallback id="about" label="소개" />}>
+        <AboutSection />
+      </React.Suspense>
 
-      {/* Experience */}
-      <section className="mx-auto max-w-6xl px-4 py-10">
-        <div className="grid gap-6 md:grid-cols-[280px_1fr]">
-          <div>
-            <h2 className="text-2xl font-bold">경력 하이라이트</h2>
-            <p className="mt-2 text-muted-foreground text-sm">
-              팀 조직화부터 배포 자동화, 관측성 확보까지 엔드투엔드로 주도한 프로그램을 요약했습니다.
-            </p>
-          </div>
-          <div className="relative">
-            <div className="absolute left-4 top-0 bottom-0 hidden w-px bg-border md:block" />
-            <div className="space-y-6">
-              {EXPERIENCES.map((exp, idx) => (
-                <motion.div
-                  key={exp.role}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.4 }}
-                  transition={{ duration: 0.4, delay: idx * 0.05 }}
-                  className="relative md:pl-12"
-                >
-                  <span className="absolute left-0 hidden h-2 w-2 -translate-x-[3px] rounded-full bg-primary md:block" />
-                  <Card className="rounded-2xl border bg-background/90 shadow-lg">
-                    <CardHeader className="pb-3">
-                      <CardDescription className="text-xs uppercase tracking-wider text-muted-foreground">
-                        {exp.period}
-                      </CardDescription>
-                      <CardTitle className="text-xl leading-tight">{exp.role}</CardTitle>
-                      <p className="text-sm text-muted-foreground">{exp.org}</p>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <p className="text-sm leading-relaxed text-muted-foreground">{exp.summary}</p>
-                      <ul className="space-y-2 text-sm">
-                        {exp.highlights.map((highlight) => (
-                          <li key={highlight} className="flex items-start gap-2">
-                            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary/60" />
-                            <span>{highlight}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="flex flex-wrap gap-2">
-                        {exp.stack.map((item) => (
-                          <Badge key={item} variant="secondary" className="rounded-xl">
-                            {item}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <React.Suspense fallback={<SectionFallback label="경력 하이라이트" />}>
+        <ExperienceSection />
+      </React.Suspense>
 
-      {/* Projects */}
-      <section id="projects" className="mx-auto max-w-6xl px-4 py-8">
-        <h2 className="text-2xl font-bold mb-4">선정 프로젝트</h2>
+      <React.Suspense fallback={<SectionFallback id="projects" label="프로젝트" minHeight="40rem" />}>
+        <ProjectsSection />
+      </React.Suspense>
 
-        {/* 검색 + 필터 바 */}
-        <div className="mb-4 flex flex-col gap-3">
-          {/* 검색창 */}
-          <div className="relative">
-            <label htmlFor={searchFieldId} className="sr-only">
-              프로젝트 검색어 입력
-            </label>
-            <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
-              aria-hidden="true"
-            />
-            <Input
-              placeholder="프로젝트 검색 (제목/설명/태그)"
-              className="pl-9"
-              value={query}
-              id={searchFieldId}
-              aria-describedby={searchSummaryId}
-              // onChange={(e) => setQuery(e.target.value)}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
-            />
-            {query && (
-              <button
-                type="button"
-                aria-label="검색어 지우기"
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground"
-                onClick={() => setQuery("")}
-              >
-                <X className="h-4 w-4" aria-hidden="true" />
-              </button>
-            )}
-          </div>
+      <React.Suspense fallback={<SectionFallback id="skills" label="기술 스택" />}>
+        <SkillsSection />
+      </React.Suspense>
 
-          {/* 태그 필터 칩들 */}
-          <div className="flex flex-wrap gap-2">
-            {ALL_TAGS.map((tag) => {
-              const on = activeTags.has(tag);
-              return (
-                <button
-                  key={tag}
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => {
-                    const next = new Set(activeTags);
-                    if (on) {
-                      next.delete(tag);
-                    } else {
-                      next.add(tag);
-                    }
-                    setActiveTags(next);
-                  }}
-                  className={[
-                    "rounded-xl border px-3 py-1 text-sm transition-all",
-                    on
-                      ? "border-transparent bg-gradient-to-r from-primary via-sky-500 to-purple-500 text-primary-foreground shadow-lg"
-                      : "hover:border-primary/40 hover:bg-primary/5"
-                  ].join(" ")}
-                >
-                  {tag}
-                </button>
-              );
-            })}
+      <React.Suspense fallback={<SectionFallback id="contact" label="문의" />}>
+        <ContactSection />
+      </React.Suspense>
 
-            {/* 필터 초기화 */}
-            {!!activeTags.size && (
-              <button
-                type="button"
-                onClick={() => setActiveTags(new Set())}
-                className="rounded-xl border px-3 py-1 text-sm hover:bg-muted"
-              >
-                초기화
-              </button>
-            )}
-          </div>
-
-          {/* 결과 요약 */}
-          <div
-            id={searchSummaryId}
-            className="text-sm text-muted-foreground"
-            aria-live="polite"
-          >
-            {isLoading ? (
-              <>프로젝트 로딩 중...</>
-            ) : (
-              <>
-                {filtered.length}개 결과
-                {query && <> · “{query}”</>}
-                {!!activeTags.size && (
-                  <>
-                    {" "}
-                    · 태그: {Array.from(activeTags).join(", ")}
-                  </>
-                )}
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* 결과 카드 그리드 */}
-        {isLoading ? (
-          <div className="grid md:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, idx) => (
-              <CardSkeleton key={idx} />
-            ))}
-          </div>
-        ) : filtered.length ? (
-          <div className="grid md:grid-cols-3 gap-6">
-            {filtered.map((p, idx) => (
-              <ProjectCard
-                key={p.title}
-                title={p.title}
-                description={p.desc}
-                tags={p.tags}
-                image={p.image}
-                href={p.href}
-                index={idx}
-              />
-            ))}
-          </div>
-        ) : (
-          <Card className="rounded-2xl">
-            <CardContent className="py-10 text-center text-muted-foreground">
-              검색 조건에 부합하는 프로젝트가 없습니다.
-            </CardContent>
-          </Card>
-        )}
-      </section>
-
-
-      {/* Skills */}
-      <section id="skills" className="mx-auto max-w-6xl px-4 py-8">
-        <h2 className="text-2xl font-bold mb-6">기술 스택</h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {SKILLS.map((s) => (
-            <motion.div
-              key={s}
-              className="group flex items-center justify-between overflow-hidden rounded-2xl border border-primary/15 bg-gradient-to-r from-primary/10 via-sky-500/10 to-purple-500/10 px-4 py-3 text-sm shadow-sm"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            >
-              <span className="font-medium">{s}</span>
-              <span className="relative h-2 w-2">
-                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-primary via-sky-500 to-purple-500 blur-[2px]" />
-                <span className="absolute inset-[2px] rounded-full bg-background" />
-              </span>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section id="contact" className="mx-auto max-w-6xl px-4 py-12">
-        <Card className="relative overflow-hidden rounded-3xl border border-primary/10 bg-gradient-to-br from-primary/20 via-sky-500/15 to-purple-500/20">
-          <div className="pointer-events-none absolute inset-y-0 right-[-10%] hidden h-full w-1/2 rounded-full bg-primary/10 blur-3xl sm:block" />
-          <CardHeader>
-            <Badge variant="outline" className="w-fit rounded-xl">Let's talk</Badge>
-            <CardTitle className="text-3xl">프로젝트 컨설팅 문의</CardTitle>
-            <CardDescription className="max-w-2xl text-base text-muted-foreground">
-              핵심 요구사항을 공유해 주시면 비즈니스 목표와 우선순위에 맞춘 실행 전략을 설계해 드립니다.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild className="rounded-2xl">
-                <a href="mailto:dslee1371@gmail.com"><Mail className="mr-2 h-4 w-4" aria-hidden="true" />이메일 상담</a>
-              </Button>
-              <Button asChild variant="outline" className="rounded-2xl">
-                <a href="https://github.com/dslee1371" target="_blank" rel="noreferrer"><Github className="mr-2 h-4 w-4" aria-hidden="true" />GitHub</a>
-              </Button>
-              <Button asChild variant="outline" className="rounded-2xl">
-                <a href="#" target="_blank" rel="noreferrer"><Linkedin className="mr-2 h-4 w-4" aria-hidden="true" />LinkedIn</a>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Footer */}
       <footer id="resume" className="mt-12 border-t">
         <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-muted-foreground">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -630,7 +265,9 @@ export default function Portfolio() {
                 <a href="#">PDF 이력서</a>
               </Button>
               <Button variant="outline" size="sm" className="rounded-xl" asChild>
-                <a href="http://gitea.apps.lab3.dslee.lab/bn_user/simple" target="_blank" rel="noreferrer">Gitea</a>
+                <a href="http://gitea.apps.lab3.dslee.lab/bn_user/simple" target="_blank" rel="noreferrer">
+                  Gitea
+                </a>
               </Button>
             </div>
           </div>
@@ -638,6 +275,22 @@ export default function Portfolio() {
       </footer>
       <BackToTop />
     </div>
+  );
+}
+
+function SectionFallback({ id, label, minHeight }: { id?: string; label: string; minHeight?: string }) {
+  return (
+    <section
+      {...(id ? { id } : {})}
+      className="mx-auto max-w-6xl px-4 py-12"
+      aria-label={`${label} 로딩 중`}
+      aria-busy="true"
+    >
+      <div
+        className="animate-pulse rounded-3xl border border-dashed border-primary/20 bg-muted/30"
+        style={{ minHeight: minHeight ?? "16rem" }}
+      />
+    </section>
   );
 }
 
@@ -693,24 +346,21 @@ function IconLink({
 function AnimatedBackground() {
   const blobs = [
     {
-      className:
-        "bg-gradient-to-br from-primary/20 via-sky-500/15 to-purple-500/25",
+      className: "bg-gradient-to-br from-primary/20 via-sky-500/15 to-purple-500/25",
       initial: { x: -120, y: -160 },
-      animate: { x: [ -160, 80, -120 ], y: [ -120, -80, -160 ], rotate: [0, 30, -15] },
+      animate: { x: [-160, 80, -120], y: [-120, -80, -160], rotate: [0, 30, -15] },
       size: "h-[28rem] w-[28rem]",
       delay: 0,
     },
     {
-      className:
-        "bg-gradient-to-tr from-sky-400/25 via-blue-500/10 to-transparent",
+      className: "bg-gradient-to-tr from-sky-400/25 via-blue-500/10 to-transparent",
       initial: { x: 220, y: 140 },
       animate: { x: [200, 120, 260], y: [120, 200, 140], rotate: [0, -25, 10] },
       size: "h-[22rem] w-[22rem]",
       delay: 0.3,
     },
     {
-      className:
-        "bg-gradient-to-br from-purple-500/25 via-fuchsia-500/10 to-transparent",
+      className: "bg-gradient-to-br from-purple-500/25 via-fuchsia-500/10 to-transparent",
       initial: { x: -60, y: 280 },
       animate: { x: [-40, 60, -20], y: [260, 320, 280], rotate: [0, 18, -12] },
       size: "h-[26rem] w-[26rem]",
@@ -719,62 +369,21 @@ function AnimatedBackground() {
   ];
 
   return (
-    <div
-      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
-      aria-hidden="true"
-    >
-      <motion.div
-        className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-primary/10 via-transparent to-transparent"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      />
-      <motion.div
-        className="absolute inset-x-0 top-32 h-[40rem] -translate-y-1/2 rounded-full"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at center, rgba(59,130,246,0.18), transparent 60%)",
-          filter: "blur(120px)",
-        }}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 0.9, scale: 1 }}
-        transition={{ duration: 1.4, delay: 0.4 }}
-      />
+    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       {blobs.map((blob, idx) => (
         <motion.div
           key={idx}
-          className={`absolute ${blob.size} rounded-full blur-3xl ${blob.className}`}
-          style={{ filter: "blur(80px)" }}
+          className={`absolute blur-3xl ${blob.size} ${blob.className}`}
           initial={blob.initial}
           animate={blob.animate}
-          transition={{ duration: 18, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: blob.delay }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: blob.delay,
+          }}
         />
       ))}
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(59,130,246,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(99,102,241,0.08) 1px, transparent 1px)",
-          backgroundSize: "120px 120px",
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.35 }}
-        transition={{ duration: 1.2, delay: 0.6 }}
-      />
-      <div
-        className="absolute inset-0 mix-blend-soft-light opacity-[0.12]"
-        style={{
-          backgroundImage:
-            "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
-          backgroundSize: "3px 3px",
-        }}
-      />
-      <motion.div
-        className="absolute bottom-0 left-1/2 h-56 w-[80%] -translate-x-1/2 bg-gradient-to-t from-purple-500/10 via-sky-500/10 to-transparent"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.4 }}
-      />
     </div>
   );
 }
