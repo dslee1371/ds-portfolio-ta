@@ -664,6 +664,17 @@ function AnimatedBackground() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       />
+      <motion.div
+        className="absolute inset-x-0 top-32 h-[40rem] -translate-y-1/2 rounded-full"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at center, rgba(59,130,246,0.18), transparent 60%)",
+          filter: "blur(120px)",
+        }}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 0.9, scale: 1 }}
+        transition={{ duration: 1.4, delay: 0.4 }}
+      />
       {blobs.map((blob, idx) => (
         <motion.div
           key={idx}
@@ -674,6 +685,25 @@ function AnimatedBackground() {
           transition={{ duration: 18, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: blob.delay }}
         />
       ))}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(59,130,246,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(99,102,241,0.08) 1px, transparent 1px)",
+          backgroundSize: "120px 120px",
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.35 }}
+        transition={{ duration: 1.2, delay: 0.6 }}
+      />
+      <div
+        className="absolute inset-0 mix-blend-soft-light opacity-[0.12]"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
+          backgroundSize: "3px 3px",
+        }}
+      />
       <motion.div
         className="absolute bottom-0 left-1/2 h-56 w-[80%] -translate-x-1/2 bg-gradient-to-t from-purple-500/10 via-sky-500/10 to-transparent"
         initial={{ opacity: 0 }}
