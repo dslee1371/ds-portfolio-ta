@@ -7,6 +7,7 @@ const SHOW_AFTER = 600;
 
 export function BackToTop() {
   const [isVisible, setIsVisible] = React.useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -21,9 +22,38 @@ export function BackToTop() {
     };
   }, []);
 
-  const scrollToTop = React.useCallback(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  React.useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
+      setPrefersReducedMotion(event.matches);
+    };
+
+    handleChange(mediaQuery);
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", handleChange);
+      return () => {
+        mediaQuery.removeEventListener("change", handleChange);
+      };
+    }
+
+    mediaQuery.addListener(handleChange);
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
   }, []);
+
+  const scrollToTop = React.useCallback(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+  }, [prefersReducedMotion]);
 
   return (
     <button

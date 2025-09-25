@@ -22,6 +22,16 @@ export function useSectionSpy(
   const visibleSectionsRef = React.useRef(new Set<string>());
 
   React.useEffect(() => {
+    setActiveId((current) => {
+      if (!sectionIds.length) {
+        return "";
+      }
+
+      return sectionIds.includes(current) ? current : sectionIds[0];
+    });
+  }, [sectionIds]);
+
+  React.useEffect(() => {
     if (!sectionIds.length) {
       setActiveId("");
       return;
