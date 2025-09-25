@@ -16,7 +16,7 @@ export default function CardSkeleton({ className }: CardSkeletonProps) {
     >
       <CardContent className="flex h-full flex-col justify-between gap-6 p-6">
         <div className="space-y-5">
-          <div className="skeleton h-40 w-full rounded-xl" aria-hidden />
+          <div className="skeleton aspect-video w-full rounded-xl" aria-hidden />
           <div className="space-y-3">
             <div className="skeleton h-4 w-3/4" aria-hidden />
             <div className="skeleton h-4 w-1/2" aria-hidden />

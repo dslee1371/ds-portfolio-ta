@@ -25,6 +25,8 @@ import CardSkeleton from "@/components/skeleton/CardSkeleton";
 import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
 
+import LazyImage from "@/components/media/LazyImage";
+
 
 
 // ---------------------------
@@ -36,6 +38,7 @@ type Project = {
   desc: string;
   tags: string[];
   href?: string;
+  image: string;
 };
 
 type Experience = {
@@ -53,18 +56,21 @@ const PROJECTS: Project[] = [
     desc: "Python · FastAPI · MySQL · Futures API · 리스크 헤지 엔진 · Kubernetes 오케스트레이션",
     tags: ["Python", "Binance", "MySQL", "Kubernetes", "Prometheus"],
     href: "#",
+    image: "/ci-ds.svg",
   },
   {
     title: "네이버 부동산 스크래퍼",
     desc: "Streamlit 대시보드 · ETL 크롤러 · Prometheus 메트릭스 · 자동화 배포 파이프라인",
     tags: ["Streamlit", "GitOps", "Grafana", "Docker"],
     href: "#",
+    image: "/vite.svg",
   },
   {
     title: "KCB DR 환경 구축",
     desc: "AWS 다계정(EKS/EC2) · Argo CD · Helm 차트 · 엔터프라이즈 CI/CD 파이프라인",
     tags: ["AWS", "EKS", "Argo CD", "Helm"],
     href: "#",
+    image: "/ci-ds.svg",
   },
 ];
 
@@ -265,12 +271,19 @@ export default function Portfolio() {
             <Card className="relative overflow-hidden rounded-3xl border border-primary/10 bg-gradient-to-br from-background/95 via-primary/10 to-background shadow-2xl">
               <motion.div
                 aria-hidden
-                className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.25),_transparent_60%)]"
+                className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.25),_transparent_60%)]"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               />
-              <CardContent className="p-6 md:p-8">
+              <LazyImage
+                src="/ci-ds.svg"
+                alt="DevOps 운영 전략을 상징하는 히어로 일러스트"
+                containerClassName="relative z-10 aspect-[4/3] w-full bg-gradient-to-br from-background/80 via-muted/40 to-background"
+                className="object-contain p-6 md:p-8"
+                skeletonClassName="bg-muted/60"
+              />
+              <CardContent className="relative z-10 p-6 pt-6 md:p-8 md:pt-6">
                 <p className="text-sm uppercase tracking-wider text-muted-foreground">Core Focus</p>
                 <h2 className="mt-2 text-2xl font-semibold leading-tight">
                   안정성과 민첩성을 균형화한
@@ -497,14 +510,21 @@ export default function Portfolio() {
                 whileHover={{ y: -8 }}
               >
                 <Card className="relative h-full overflow-hidden rounded-2xl border border-primary/15 bg-gradient-to-br from-background/90 via-primary/5 to-background/95 shadow-lg transition-shadow group-hover:shadow-2xl">
-                  <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                  <div className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-sky-500/15 to-purple-500/20" />
                   </div>
-                  <CardHeader className="relative z-10 pb-3">
+                  <LazyImage
+                    src={p.image}
+                    alt={`${p.title} 프로젝트 썸네일 이미지`}
+                    containerClassName="relative z-10 aspect-video w-full bg-gradient-to-br from-background via-muted/40 to-background"
+                    className="object-contain p-4"
+                    skeletonClassName="bg-muted/60"
+                  />
+                  <CardHeader className="relative z-20 space-y-2 px-6 pt-6 pb-3">
                     <CardTitle className="text-lg transition-colors group-hover:text-primary">{p.title}</CardTitle>
                     <CardDescription className="leading-relaxed">{p.desc}</CardDescription>
                   </CardHeader>
-                  <CardContent className="relative z-10 space-y-4">
+                  <CardContent className="relative z-20 space-y-4">
                     <div className="flex flex-wrap gap-2">
                       {p.tags.map((t) => (
                         <Badge key={t} variant="secondary" className="rounded-xl border border-primary/10 bg-primary/5 text-foreground">
