@@ -10,11 +10,11 @@ import {
   CommandShortcut,
 } from "@/components/ui/command"
 import { useLocation, useNavigate } from "react-router-dom"
-import { ArrowUpRight, Home, Info, Mail, PanelsTopLeft } from "lucide-react"
+import { ArrowUpRight, Cpu, Home, Info, Mail, PanelsTopLeft } from "lucide-react"
 
 type CommandKItem = {
   label: string
-  path: string
+  to: string
   keywords?: string[]
   description?: string
 }
@@ -24,16 +24,42 @@ type CommandKProps = {
 }
 
 function getSearchableText(item: CommandKItem) {
-  const base = [item.label, item.path, ...(item.keywords ?? [])]
+  const base = [item.label, item.to, item.description ?? "", ...(item.keywords ?? [])]
     .join(" ")
     .toLowerCase()
   return base
+}
+
+function escapeRegExp(input: string) {
+  return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+}
+
+function highlightText(text: string, terms: string[]): React.ReactNode {
+  if (!terms.length) return text
+  const pattern = terms.map(escapeRegExp).filter(Boolean).join("|")
+  if (!pattern) return text
+
+  const regex = new RegExp(`(${pattern})`, "gi")
+  const parts = text.split(regex)
+
+  return parts.map((part, index) => {
+    const normalized = part.toLowerCase()
+    const isMatch = terms.some((term) => term && normalized === term)
+    return isMatch ? (
+      <mark key={`${part}-${index}`} className="rounded bg-primary/20 px-0.5 text-primary">
+        {part}
+      </mark>
+    ) : (
+      <React.Fragment key={`${part}-${index}`}>{part}</React.Fragment>
+    )
+  })
 }
 
 const iconMap: Record<string, React.ReactNode> = {
   home: <Home className="h-4 w-4" />,
   projects: <PanelsTopLeft className="h-4 w-4" />,
   about: <Info className="h-4 w-4" />,
+  skills: <Cpu className="h-4 w-4" />,
   contact: <Mail className="h-4 w-4" />,
 }
 
@@ -50,6 +76,16 @@ export default function CommandK({ items }: CommandKProps) {
   const [activeIndex, setActiveIndex] = React.useState(0)
   const inputRef = React.useRef<HTMLInputElement>(null)
   const [isMac, setIsMac] = React.useState(false)
+
+  const searchTerms = React.useMemo(
+    () =>
+      search
+        .trim()
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(Boolean),
+    [search],
+  )
 
   React.useEffect(() => {
     if (typeof window === "undefined") return
@@ -85,11 +121,13 @@ export default function CommandK({ items }: CommandKProps) {
   }, [open, search])
 
   const filteredItems = React.useMemo(() => {
-    const trimmed = search.trim().toLowerCase()
-    if (!trimmed) return items
+    if (searchTerms.length === 0) return items
 
-    return items.filter((item) => getSearchableText(item).includes(trimmed))
-  }, [items, search])
+    return items.filter((item) => {
+      const searchable = getSearchableText(item)
+      return searchTerms.every((term) => searchable.includes(term))
+    })
+  }, [items, searchTerms])
 
   React.useEffect(() => {
     if (activeIndex >= filteredItems.length) {
@@ -99,7 +137,7 @@ export default function CommandK({ items }: CommandKProps) {
 
   const handleSelect = React.useCallback(
     (item: CommandKItem) => {
-      const target = item.path || "/"
+      const target = item.to || "/"
       const currentFullPath = `${location.pathname}${location.hash}`
       const shouldReplace = currentFullPath === target
       setOpen(false)
@@ -165,7 +203,7 @@ export default function CommandK({ items }: CommandKProps) {
             <CommandGroup>
               {filteredItems.map((item, index) => (
                 <CommandItem
-                  key={item.label}
+                  key={`${item.label}-${item.to}`}
                   active={index === activeIndex}
                   onClick={() => handleSelect(item)}
                 >
@@ -173,14 +211,24 @@ export default function CommandK({ items }: CommandKProps) {
                     {getIconForLabel(item.label)}
                   </span>
                   <span className="flex flex-1 flex-col">
-                    <span className="text-sm font-medium">{item.label}</span>
+                    <span className="text-sm font-medium">{highlightText(item.label, searchTerms)}</span>
+                    {item.description ? (
+                      <span className="text-xs text-muted-foreground">
+                        {highlightText(item.description, searchTerms)}
+                      </span>
+                    ) : null}
                     {item.keywords && item.keywords.length > 0 ? (
                       <span className="text-[11px] text-muted-foreground/80">
-                        {item.keywords.join(" · ")}
+                        {item.keywords.map((keyword, keywordIndex) => (
+                          <React.Fragment key={`${item.label}-${keyword}-${keywordIndex}`}>
+                            {keywordIndex > 0 ? <span aria-hidden> · </span> : null}
+                            <span>{highlightText(keyword, searchTerms)}</span>
+                          </React.Fragment>
+                        ))}
                       </span>
                     ) : null}
                   </span>
-                  <CommandShortcut>{item.path.replace("/#", "#")}</CommandShortcut>
+                  <CommandShortcut>{item.to.replace("/#", "#")}</CommandShortcut>
                 </CommandItem>
               ))}
             </CommandGroup>
