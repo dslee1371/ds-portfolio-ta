@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { ThemeToggle } from "@/components/ThemeToggle";
 
+import CardSkeleton from "@/components/skeleton/CardSkeleton";
 import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
 
@@ -139,10 +140,20 @@ export default function Portfolio() {
   // Portfolio() 내부, return 위쪽에 추가
   const [query, setQuery] = React.useState("");
   const [activeTags, setActiveTags] = React.useState<Set<string>>(new Set());
+  const [projects, setProjects] = React.useState<Project[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    setProjects(PROJECTS);
+    setIsLoading(false);
+  }, []);
 
   const filtered = React.useMemo(() => {
+    if (!projects.length) {
+      return [];
+    }
     const q = query.trim().toLowerCase();
-    return PROJECTS.filter((p) => {
+    return projects.filter((p) => {
       const matchesQuery =
         !q ||
         p.title.toLowerCase().includes(q) ||
@@ -155,7 +166,7 @@ export default function Portfolio() {
 
       return matchesQuery && matchesTags;
     });
-  }, [query, activeTags]);
+  }, [projects, query, activeTags]);
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
       <AnimatedBackground />
@@ -449,19 +460,31 @@ export default function Portfolio() {
 
           {/* 결과 요약 */}
           <div className="text-sm text-muted-foreground">
-            {filtered.length}개 결과
-            {query && <> · “{query}”</>}
-            {!!activeTags.size && (
+            {isLoading ? (
+              <>프로젝트 로딩 중...</>
+            ) : (
               <>
-                {" "}
-                · 태그: {Array.from(activeTags).join(", ")}
+                {filtered.length}개 결과
+                {query && <> · “{query}”</>}
+                {!!activeTags.size && (
+                  <>
+                    {" "}
+                    · 태그: {Array.from(activeTags).join(", ")}
+                  </>
+                )}
               </>
             )}
           </div>
         </div>
 
         {/* 결과 카드 그리드 */}
-        {filtered.length ? (
+        {isLoading ? (
+          <div className="grid md:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, idx) => (
+              <CardSkeleton key={idx} />
+            ))}
+          </div>
+        ) : filtered.length ? (
           <div className="grid md:grid-cols-3 gap-6">
             {filtered.map((p, idx) => (
               <motion.div

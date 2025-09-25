@@ -67,3 +67,9 @@
     background-color: hsl(var(--primary) / 0.15);
   }
 }
+
+@layer utilities {
+  .skeleton {
+    @apply animate-pulse rounded-xl bg-muted/70;
+  }
+}
