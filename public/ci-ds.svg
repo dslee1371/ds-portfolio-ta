@@ -1,20 +1,24 @@
-<!-- ds opensource · icon mark -->
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
-  <title id="title">ds opensource icon</title>
-  <desc id="desc">Open-ring with stylized d and s monogram for ds opensource.</desc>
-  <g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
-    <!-- Open ring (상단에 작은 갭 = 오픈소스 의미) -->
-    <circle cx="128" cy="128" r="100" transform="rotate(-22 128 128)" stroke-dasharray="520 72"></circle>
+<!-- /public/ci-ds.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 384" fill="none">
+  <rect width="512" height="384" rx="24" fill="url(#bg)"></rect>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="384" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1E3A8A"></stop>
+      <stop offset="1" stop-color="#0F172A"></stop>
+    </linearGradient>
+  </defs>
 
-    <!-- 'd' 모노그램: 스템 + 보울 -->
-    <path d="M88 98v60"></path>
-    <circle cx="114" cy="128" r="24"></circle>
+  <!-- 구름 -->
+  <path d="M160 240c-24 0-48-18-48-44s24-44 48-44h6c6-32 32-52 64-52s60 26 60 56h6c24 0 42 16 42 40s-18 44-42 44H160z" fill="#3B82F6" stroke="#93C5FD" stroke-width="4"></path>
 
-    <!-- 's' 모노그램: 부드러운 이중 곡선 -->
-    <path d="M156 112
-             Q172 112 172 124
-             Q172 136 156 136
-             Q140 136 140 148
-             Q140 160 156 160"></path>
-  </g>
+  <!-- 코드 아이콘 -->
+  <path d="M100 160 L60 192 L100 224 M140 160 L180 192 L140 224" stroke="#FACC15" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+
+  <!-- 톱니바퀴 -->
+  <circle cx="400" cy="192" r="28" fill="#10B981" stroke="#6EE7B7" stroke-width="4"></circle>
+  <path d="M400 160v-12M400 236v-12M372 192h-12M452 192h-12M380 172l-8-8M428 220l-8-8M428 164l-8 8M380 212l-8 8" stroke="#fff" stroke-width="4" stroke-linecap="round"></path>
+
+  <!-- 파이프라인 화살표 -->
+  <path d="M120 300h272" stroke="#F9FAFB" stroke-width="6" stroke-linecap="round"></path>
+  <path d="M360 288l32 12-32 12z" fill="#F9FAFB"></path>
 </svg>
