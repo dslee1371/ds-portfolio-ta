@@ -28,7 +28,9 @@ export default function App() {
   return (
     <>
       <CommandK items={COMMAND_ITEMS} />
-      <Portfolio />
+      <main id="main">
+        <Portfolio />
+      </main>
     </>
   );
 }
