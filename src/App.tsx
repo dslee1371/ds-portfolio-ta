@@ -1,5 +1,7 @@
 import CommandK, { type CommandKItem } from "@/components/command/CommandK";
 import Portfolio from "./Portfolio";
+import { AnimatePresence, motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 const COMMAND_ITEMS: CommandKItem[] = [
   {
@@ -25,12 +27,23 @@ const COMMAND_ITEMS: CommandKItem[] = [
 ];
 
 export default function App() {
+  const location = useLocation();
+
   return (
     <>
       <CommandK items={COMMAND_ITEMS} />
-      <main id="main">
-        <Portfolio />
-      </main>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.main
+          key={location.pathname}
+          id="main"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+        >
+          <Portfolio />
+        </motion.main>
+      </AnimatePresence>
     </>
   );
 }
