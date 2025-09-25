@@ -12,6 +12,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'), // ← 핵심
+      'react-router-dom': path.resolve(__dirname, 'src/lib/react-router-dom'),
     },
   },
 })
