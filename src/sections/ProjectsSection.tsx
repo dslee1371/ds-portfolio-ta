@@ -67,7 +67,7 @@ export default function ProjectsSection() {
 
   return (
     <section id="projects" className="mx-auto max-w-6xl px-4 py-8">
-      <h2 className="text-2xl font-bold mb-4">선정 프로젝트</h2>
+      <h2 className="mb-4 font-bold text-balance">선정 프로젝트</h2>
 
       <div className="mb-4 flex flex-col gap-3">
         <div className="relative">

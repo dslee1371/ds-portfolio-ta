@@ -134,6 +134,7 @@ export default function Portfolio() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
+            className="max-w-[72ch]"
           >
             <Badge
               variant="secondary"
@@ -141,10 +142,10 @@ export default function Portfolio() {
             >
               SRE · DevOps · Cloud Architecture
             </Badge>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight">
+            <h1 className="font-bold tracking-tight text-balance">
               안녕하세요, <span className="bg-gradient-to-r from-primary via-sky-500 to-purple-500 bg-clip-text text-transparent">이동수</span>입니다.
             </h1>
-            <p className="mt-4 text-muted-foreground text-lg leading-relaxed">
+            <p className="mt-4 text-muted-foreground leading-relaxed">
               Python 기반 CI/CD 파이프라인과 Kubernetes, AWS/GCP 인프라스트럭처를 토대로
               미션 크리티컬 서비스를 설계하고 자동화하는 DevOps/클라우드 아키텍트입니다.
               복잡한 운영 환경을 구조화된 표준과 코드 중심 거버넌스로 정렬합니다.
@@ -214,7 +215,7 @@ export default function Portfolio() {
               />
               <CardContent className="relative z-10 p-6 pt-6 md:p-8 md:pt-6">
                 <p className="text-sm uppercase tracking-wider text-muted-foreground">Core Focus</p>
-                <h2 className="mt-2 text-2xl font-semibold leading-tight">
+                <h2 className="mt-2 font-semibold leading-tight text-balance">
                   안정성과 민첩성을 균형화한
                   <span className="ml-1 bg-gradient-to-r from-primary via-sky-500 to-purple-500 bg-clip-text text-transparent">
                     운영 전략 프레임워크

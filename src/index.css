@@ -63,9 +63,52 @@
     outline: 3px solid hsl(var(--ring));
     outline-offset: 4px;
   }
+  :root {
+    --reading-max: min(72ch, 100%);
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: "Pretendard Variable", "Inter", "Noto Sans KR", system-ui, sans-serif;
+    font-size: clamp(1rem, 0.96rem + 0.35vw, 1.125rem);
+    line-height: 1.65;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 2rem + 2.6vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+
+  h2 {
+    font-size: clamp(1.875rem, 1.55rem + 1.4vw, 2.75rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  p,
+  ul,
+  ol,
+  blockquote {
+    max-width: var(--reading-max);
+  }
+
+  p {
+    margin-block: 0;
+  }
+
+  p + p,
+  p + ul,
+  p + ol,
+  ul + p,
+  ol + p,
+  blockquote + p,
+  p + blockquote {
+    margin-top: clamp(1rem, 0.9rem + 0.4vw, 1.6rem);
+  }
+
+  li {
+    line-height: 1.6;
   }
   .skip-link {
     position: absolute;

@@ -23,7 +23,7 @@ const SKILLS = [
 export default function SkillsSection() {
   return (
     <section id="skills" className="mx-auto max-w-6xl px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6">기술 스택</h2>
+      <h2 className="mb-6 font-bold text-balance">기술 스택</h2>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {SKILLS.map((skill) => (
           <motion.div
