@@ -207,7 +207,7 @@ export default function Portfolio() {
                 transition={{ duration: 0.8, delay: 0.2 }}
               />
               <LazyImage
-                src="/ci-ds-1.svg"
+                src="/devops.svg"
                 alt="DevOps 운영 전략을 상징하는 히어로 일러스트"
                 containerClassName="relative z-10 aspect-[4/3] w-full bg-gradient-to-br from-background/80 via-muted/40 to-background"
                 className="object-contain p-6 md:p-8"
