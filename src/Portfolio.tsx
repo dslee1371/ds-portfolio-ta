@@ -32,6 +32,10 @@ const ProjectsSection = React.lazy(() => import("./sections/ProjectsSection"));
 const SkillsSection = React.lazy(() => import("./sections/SkillsSection"));
 const ContactSection = React.lazy(() => import("./sections/ContactSection"));
 
+const SEO_TITLE = "이동수 | DevOps & Cloud Engineer 포트폴리오";
+const SEO_DESCRIPTION =
+  "DevOps & Cloud Engineer 이동수의 포트폴리오. Kubernetes와 AWS/GCP 기반 인프라 설계, CI/CD 자동화 경험을 확인하세요.";
+
 const SECTION_PREFETCHERS: Record<string, () => Promise<unknown>> = {
   about: () => import("./sections/AboutSection"),
   projects: () => import("./sections/ProjectsSection"),
@@ -76,6 +80,23 @@ export default function Portfolio() {
     if (loader) {
       void loader();
     }
+  }, []);
+
+  React.useEffect(() => {
+    document.title = SEO_TITLE;
+
+    const setMetaContent = (selector: string, content: string) => {
+      const element = document.querySelector<HTMLMetaElement>(selector);
+      if (element) {
+        element.setAttribute("content", content);
+      }
+    };
+
+    setMetaContent('meta[name="description"]', SEO_DESCRIPTION);
+    setMetaContent('meta[property="og:title"]', SEO_TITLE);
+    setMetaContent('meta[property="og:description"]', SEO_DESCRIPTION);
+    setMetaContent('meta[name="twitter:title"]', SEO_TITLE);
+    setMetaContent('meta[name="twitter:description"]', SEO_DESCRIPTION);
   }, []);
 
   return (
