@@ -59,7 +59,7 @@ const LazyImage = React.forwardRef<HTMLImageElement, LazyImageProps>(
         <div
           aria-hidden
           className={cn(
-            "pointer-events-none absolute inset-0 animate-pulse bg-muted transition-opacity duration-300",
+            "pointer-events-none absolute inset-0 bg-muted transition-opacity duration-300",
             isLoaded && "opacity-0",
             skeletonClassName,
           )}
