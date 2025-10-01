@@ -164,7 +164,7 @@ export default function Portfolio() {
               SRE · DevOps · Cloud Architecture
             </Badge>
             <h1 className="font-bold tracking-tight text-balance">
-              안녕하세요, <span className="bg-gradient-to-r from-primary via-sky-500 to-purple-500 bg-clip-text text-transparent">이동수</span>입니다.
+              Devops Engineer, <span className="bg-gradient-to-r from-primary via-sky-500 to-purple-500 bg-clip-text text-transparent">이동수</span>
             </h1>
             <p className="mt-4 text-muted-foreground leading-relaxed">
               Python 기반 CI/CD 파이프라인과 Kubernetes, AWS/GCP 인프라스트럭처를 토대로
