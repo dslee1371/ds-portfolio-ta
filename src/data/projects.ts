@@ -16,7 +16,7 @@ export const PROJECTS: Project[] = [
       "시장 급변 시 자동 헤지로 미실현 손실 최대 35% 완화",
       "CI/CD 파이프라인 정비 후 전략 배포 리드타임 3시간 → 20분 단축",
     ],
-    href: "#",
+    href: "/references/binance-hedge-case-study.html",
     image: "/ci-binance.svg",
   },
   {
@@ -27,7 +27,7 @@ export const PROJECTS: Project[] = [
       "데이터 적재 주기를 6시간에서 30분 단위로 단축",
       "대시보드 자동화로 팀 리포트 작성 시간 70% 절감",
     ],
-    href: "#",
+    href: "/references/naver-realestate-streamlit-report.html",
     image: "/ci-naver.svg",
   },
   {
@@ -38,7 +38,7 @@ export const PROJECTS: Project[] = [
       "분기별 DR 전환 리허설에서 RTO 4시간 → 45분 달성",
       "IaC 도입으로 신규 워크로드 온보딩 기간 5일 → 1일로 단축",
     ],
-    href: "#",
+    href: "/references/kcb-dr-architecture.html",
     image: "/ci-kb.svg",
   },
 ]

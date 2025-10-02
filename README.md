@@ -86,7 +86,7 @@ ds-portfolio-app/
 
 - 📧 Email: [dslee1371@gmail.com](mailto:dslee1371@gmail.com)  
 - 💻 GitHub: [dslee1371](https://github.com/dslee1371)  
-- 💼 LinkedIn: (추가 예정)
+- 💼 LinkedIn: [dslee1371](https://www.linkedin.com/in/dslee1371/)
 
 ---
 
