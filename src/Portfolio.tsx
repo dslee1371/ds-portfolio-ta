@@ -193,30 +193,37 @@ export const portfolioData = {
 };
 
 /** ===== 단일 섹션 컴포넌트 ===== */
-const SectionTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h2 style={{ margin: "24px 0 12px 0" }}>{children}</h2>
+const SectionCard: React.FC<{
+  eyebrow: string;
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+}> = ({ eyebrow, title, description, children }) => (
+  <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-10 shadow-[0_40px_80px_-40px_rgba(15,23,42,0.8)] backdrop-blur">
+    <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+    <div className="space-y-4">
+      <div className="flex items-center gap-3 text-[0.65rem] font-semibold uppercase tracking-[0.45em] text-sky-200/90">
+        <span className="h-px w-8 bg-sky-400/60" />
+        {eyebrow}
+      </div>
+      <h2 className="text-3xl font-semibold text-white md:text-[2.2rem]">{title}</h2>
+      {description ? <p className="max-w-2xl text-base text-slate-300">{description}</p> : null}
+    </div>
+    <div className="mt-8 space-y-6 text-slate-200">{children}</div>
+  </section>
 );
 
 const Pill: React.FC<{ label: string }> = ({ label }) => (
-  <span
-    style={{
-      display: "inline-block",
-      padding: "6px 10px",
-      border: "1px solid #e5e7eb",
-      borderRadius: 999,
-      fontSize: 13,
-      marginRight: 8,
-      marginBottom: 8,
-    }}
-  >
+  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm font-medium text-sky-100 shadow-[0_12px_30px_rgba(15,23,42,0.35)] transition duration-200 hover:-translate-y-0.5 hover:border-sky-400/50 hover:bg-sky-500/15 hover:text-white">
+    <span className="h-1.5 w-1.5 rounded-full bg-sky-300/80" aria-hidden="true" />
     {label}
   </span>
 );
 
 const Kv: React.FC<{ k: string; v?: string | React.ReactNode }> = ({ k, v }) => (
-  <div style={{ display: "flex", gap: 8, fontSize: 14, lineHeight: 1.8 }}>
-    <strong style={{ width: 100 }}>{k}</strong>
-    <span>{v}</span>
+  <div className="grid gap-2 rounded-2xl border border-white/5 bg-white/[0.02] px-4 py-3 text-sm text-slate-200 transition duration-200 hover:border-white/20 sm:grid-cols-[160px_1fr] sm:items-center">
+    <span className="font-semibold text-white">{k}</span>
+    <span className="text-slate-300">{v}</span>
   </div>
 );
 
@@ -225,95 +232,158 @@ export default function Portfolio() {
   const d = portfolioData;
 
   return (
-    <div style={{ maxWidth: 960, margin: "0 auto", padding: "24px" }}>
-      {/* 헤더 */}
-      <header style={{ marginBottom: 24 }}>
-        <h1 style={{ margin: 0 }}>{d.profile.name}</h1>
-        <div style={{ color: "#6b7280" }}>{d.profile.title}</div>
-        <div style={{ color: "#6b7280", fontSize: 14 }}>
-          {d.profile.location} · 경력 {d.profile.careerDuration}
-        </div>
-      </header>
-
-      {/* 요약 */}
-      <SectionTitle>소개</SectionTitle>
-      <p style={{ marginTop: 0 }}>{d.profile.summary}</p>
-
-      {/* 핵심 스킬 */}
-      <SectionTitle>핵심 스킬</SectionTitle>
-      <div>
-        {d.profile.skillsTop.map((s) => (
-          <Pill key={s} label={s} />
-        ))}
+    <div className="relative overflow-hidden bg-slate-950 text-slate-100">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-[-18rem] h-[38rem] w-[38rem] -translate-x-1/2 rounded-full bg-sky-500/20 blur-[180px]" />
+        <div className="absolute right-[-12rem] top-1/3 h-[28rem] w-[28rem] rounded-full bg-purple-500/20 blur-[160px]" />
+        <div className="absolute bottom-[-18rem] left-[-10rem] h-[34rem] w-[34rem] rounded-full bg-blue-500/10 blur-[160px]" />
       </div>
 
-      {/* 자격증 */}
-      <SectionTitle>자격증</SectionTitle>
-      <div>
-        {d.certifications.map((c) => (
-          <Kv key={c.name} k={c.name} v={c.issued} />
-        ))}
-      </div>
-
-      {/* 학력 */}
-      <SectionTitle>학력</SectionTitle>
-      <div>
-        {d.education.map((e, idx) => (
-          <Kv
-            key={idx}
-            k={e.school}
-            v={
-              <>
-                {e.major ? `${e.major} ` : ""}
-                {e.note ? `(${e.note}) ` : ""}
-                {e.period ? `· ${e.period}` : ""}
-              </>
-            }
-          />
-        ))}
-      </div>
-
-      {/* 경력 요약(회사) */}
-      <SectionTitle>회사 경력</SectionTitle>
-      <div>
-        {d.companies.map((c) => (
-          <div key={c.company} style={{ marginBottom: 8 }}>
-            <strong>{c.company}</strong> · {c.title} · <span style={{ color: "#6b7280" }}>{c.period}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* 주요 프로젝트 */}
-      <SectionTitle>주요 프로젝트</SectionTitle>
-      <div style={{ display: "grid", gap: 16 }}>
-        {d.projectsRecent.map((p) => (
-          <article
-            key={`${p.name}-${p.period}`}
-            style={{ border: "1px solid #e5e7eb", borderRadius: 12, padding: 16 }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-              <div>
-                <h3 style={{ margin: "0 0 4px 0" }}>{p.name}</h3>
-                <div style={{ color: "#6b7280", fontSize: 14 }}>
-                  {p.client} · {p.role} · {p.period}
-                </div>
+      <div className="relative mx-auto flex max-w-6xl flex-col gap-14 px-6 pb-24 pt-20 sm:px-8 lg:px-12">
+        {/* 헤더 */}
+        <header className="relative overflow-hidden rounded-[2.75rem] border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900/70 to-slate-900/30 px-8 py-10 text-left shadow-[0_40px_120px_rgba(15,23,42,0.65)] sm:px-12 sm:py-12">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.28),_transparent_65%)]" aria-hidden="true" />
+          <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px]">
+            <div className="space-y-6">
+              <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-sky-200">
+                Technical Architect
+              </span>
+              <div className="space-y-4">
+                <h1 className="text-4xl font-semibold text-white md:text-5xl">{d.profile.name}</h1>
+                <p className="text-lg text-slate-200 md:text-xl">{d.profile.title}</p>
+              </div>
+              <p className="max-w-3xl text-base text-slate-200/90 md:text-lg">{d.profile.summary}</p>
+              <div className="flex flex-wrap gap-3 text-sm text-slate-300">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5">
+                  <span className="inline-flex h-2 w-2 rounded-full bg-sky-300" aria-hidden="true" />
+                  {d.profile.location}
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5">
+                  <span className="inline-flex h-2 w-2 rounded-full bg-emerald-300" aria-hidden="true" />
+                  경력 {d.profile.careerDuration}
+                </span>
               </div>
             </div>
 
-            <p style={{ marginTop: 12 }}>{p.summary}</p>
+            <div className="flex flex-col justify-between gap-6 rounded-3xl border border-white/10 bg-white/[0.08] p-6 text-left shadow-[0_30px_80px_rgba(15,23,42,0.45)]">
+              <div className="space-y-2">
+                <span className="text-xs font-semibold uppercase tracking-[0.35em] text-sky-200/80">Focus</span>
+                <h2 className="text-xl font-semibold text-white">클라우드 &amp; DevOps 표준화</h2>
+              </div>
+              <div>
+                <div className="text-4xl font-semibold text-white md:text-5xl">{d.profile.careerDuration}</div>
+                <p className="mt-2 text-sm text-slate-200/80">대형 금융·제조사 프로젝트 실무 경험</p>
+              </div>
+              <div className="space-y-2 text-sm text-slate-200/80">
+                <p>• 멀티클라우드 인프라 설계 및 운영</p>
+                <p>• CI/CD · IaC 파이프라인 고도화</p>
+                <p>• 관측·보안·인증 플랫폼 통합</p>
+              </div>
+            </div>
+          </div>
+        </header>
 
-            <div style={{ marginTop: 8 }}>
-              {p.stack.map((s) => (
-                <Pill key={`${p.name}-${s}`} label={s} />
+        {/* 섹션들 */}
+        <div className="grid gap-12">
+          <SectionCard eyebrow="About" title="소개">
+            <p className="text-base text-slate-200/90 md:text-lg">{d.profile.summary}</p>
+          </SectionCard>
+
+          <SectionCard eyebrow="Skills" title="핵심 스킬" description="프로젝트를 주도하며 반복적으로 활용한 핵심 역량들입니다.">
+            <div className="flex flex-wrap gap-3">
+              {d.profile.skillsTop.map((s) => (
+                <Pill key={s} label={s} />
               ))}
             </div>
-          </article>
-        ))}
-      </div>
+          </SectionCard>
 
-      {/* 비고 */}
-      <SectionTitle>기타</SectionTitle>
-      <p style={{ marginTop: 0 }}>{d.projectsLegacyNote}</p>
+          <SectionCard eyebrow="Certifications" title="자격증">
+            <div className="grid gap-3 sm:grid-cols-2">
+              {d.certifications.map((c) => (
+                <Kv key={c.name} k={c.name} v={c.issued} />
+              ))}
+            </div>
+          </SectionCard>
+
+          <SectionCard eyebrow="Education" title="학력">
+            <ul className="space-y-5">
+              {d.education.map((e, idx) => (
+                <li key={idx} className="relative rounded-2xl border border-white/5 bg-white/[0.02] p-5 shadow-[0_24px_60px_rgba(15,23,42,0.35)]">
+                  <div className="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">{e.school}</h3>
+                      <p className="text-sm text-slate-300">
+                        {[e.major, e.note].filter(Boolean).join(" · ") || ""}
+                      </p>
+                    </div>
+                    {e.period ? (
+                      <span className="inline-flex items-center rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
+                        {e.period}
+                      </span>
+                    ) : null}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </SectionCard>
+
+          <SectionCard eyebrow="Career" title="회사 경력" description="도메인·역할별로 체득한 실무 지식과 표준화 경험을 바탕으로 프로젝트를 리딩했습니다.">
+            <ul className="relative space-y-6">
+              <div className="absolute left-3 top-3 bottom-3 w-px bg-gradient-to-b from-sky-400/40 via-white/10 to-transparent" aria-hidden="true" />
+              {d.companies.map((c, idx) => (
+                <li key={c.company} className="relative pl-10">
+                  <span className="absolute left-1 top-2 inline-flex h-3 w-3 -translate-x-1/2 rounded-full border border-white/40 bg-sky-300/80 shadow-[0_0_12px_rgba(56,189,248,0.7)]" aria-hidden="true" />
+                  <div className="flex flex-wrap items-baseline justify-between gap-3 rounded-2xl border border-white/5 bg-white/[0.03] px-5 py-4 shadow-[0_24px_60px_rgba(15,23,42,0.35)] transition duration-200 hover:border-sky-400/40">
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">{c.company}</h3>
+                      <p className="text-sm text-slate-300">{c.title}</p>
+                    </div>
+                    <span className="text-sm text-slate-400">{c.period}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </SectionCard>
+
+          <SectionCard eyebrow="Projects" title="주요 프로젝트" description="최근 수행한 프로젝트 중심으로 기술 스택과 역할을 정리했습니다.">
+            <div className="grid gap-6 md:grid-cols-2">
+              {d.projectsRecent.map((p) => (
+                <article
+                  key={`${p.name}-${p.period}`}
+                  className="group relative overflow-hidden rounded-3xl border border-white/5 bg-white/[0.03] p-6 shadow-[0_30px_80px_rgba(15,23,42,0.4)] transition duration-300 hover:-translate-y-1 hover:border-sky-400/50 hover:bg-slate-900/60"
+                >
+                  <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-sky-400/60 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="space-y-1">
+                      <h3 className="text-xl font-semibold text-white transition duration-200 group-hover:text-sky-200">
+                        {p.name}
+                      </h3>
+                      <p className="text-sm text-slate-400">
+                        {p.client} · {p.role}
+                      </p>
+                    </div>
+                    <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
+                      {p.period}
+                    </span>
+                  </div>
+
+                  <p className="mt-4 text-sm text-slate-200/90">{p.summary}</p>
+
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {p.stack.map((s) => (
+                      <Pill key={`${p.name}-${s}`} label={s} />
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </SectionCard>
+
+          <SectionCard eyebrow="Notes" title="기타">
+            <p className="text-base text-slate-200/85">{d.projectsLegacyNote}</p>
+          </SectionCard>
+        </div>
+      </div>
     </div>
   );
 }
