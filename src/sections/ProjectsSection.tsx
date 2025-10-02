@@ -30,7 +30,8 @@ export default function ProjectsSection() {
         !q ||
         p.title.toLowerCase().includes(q) ||
         p.desc.toLowerCase().includes(q) ||
-        p.tags.some((t) => t.toLowerCase().includes(q));
+        p.tags.some((t) => t.toLowerCase().includes(q)) ||
+        (p.metrics?.some((metric) => metric.toLowerCase().includes(q)) ?? false);
 
       const matchesTags =
         activeTags.size === 0 ||
@@ -144,6 +145,7 @@ export default function ProjectsSection() {
               description={project.desc}
               tags={project.tags}
               image={project.image}
+              metrics={project.metrics}
               href={project.href}
               index={idx}
             />

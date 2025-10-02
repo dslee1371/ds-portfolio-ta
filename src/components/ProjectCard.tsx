@@ -10,6 +10,7 @@ export interface ProjectCardProps {
   description: string;
   tags: string[];
   image: string;
+  metrics?: string[];
   href?: string;
   index?: number;
   className?: string;
@@ -25,6 +26,7 @@ export default function ProjectCard({
   description,
   tags,
   image,
+  metrics,
   href,
   index = 0,
   className,
@@ -80,6 +82,16 @@ export default function ProjectCard({
           <CardDescription className="leading-relaxed">{description}</CardDescription>
         </CardHeader>
         <CardContent className="relative z-20 space-y-4">
+          {metrics?.length ? (
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              {metrics.map((metric) => (
+                <li key={metric} className="flex items-start gap-2">
+                  <span className="mt-1 inline-flex h-1.5 w-1.5 shrink-0 rounded-full bg-primary/70" aria-hidden="true" />
+                  <span>{metric}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (
               <Badge key={tag} variant="secondary" className="rounded-xl border border-primary/10 bg-primary/5 text-foreground">
