@@ -16,6 +16,7 @@ export default function App() {
         <motion.main
           key={location.pathname}
           id="main"
+          className="relative min-h-screen bg-slate-950 text-slate-100"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
@@ -34,7 +35,7 @@ function PageFallback() {
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-6xl items-center justify-center px-4">
       <div
-        className="h-12 w-12 animate-spin rounded-full border-4 border-primary/30 border-t-primary"
+        className="h-12 w-12 animate-spin rounded-full border-4 border-sky-400/30 border-t-sky-300"
         role="status"
         aria-label="초기 화면 로딩 중"
       />
