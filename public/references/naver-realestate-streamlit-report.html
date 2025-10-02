@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>네이버 부동산 데이터 파이프라인 자료</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+        margin: 0 auto;
+        max-width: 960px;
+        padding: 3rem 1.5rem;
+        color: #1f2933;
+        background: #f9fafb;
+      }
+      h1, h2, h3 {
+        color: #2563eb;
+      }
+      .card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 1.75rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+      }
+      ul {
+        padding-left: 1.5rem;
+      }
+      a {
+        color: #1d4ed8;
+      }
+      figure {
+        margin: 0;
+      }
+      figcaption {
+        font-size: 0.875rem;
+        color: #475569;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>네이버 부동산 스크래퍼 &amp; Streamlit 대시보드</h1>
+      <p>데이터 파이프라인 구조, 자동화 워크플로우, 그리고 시각화 대시보드 화면을 정리했습니다.</p>
+    </header>
+
+    <section class="card">
+      <h2>GitHub 레포지토리</h2>
+      <p>
+        전체 파이프라인은 
+        <a href="https://github.com/dslee1371/naver-realestate-streamlit" target="_blank" rel="noreferrer">
+          dslee1371/naver-realestate-streamlit
+        </a>
+        에 공개되어 있습니다. <code>infra/</code> 디렉터리에는 GitOps 매니페스트와 Helm 차트가 정리되어 있습니다.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>ETL &amp; 모니터링 구성</h2>
+      <ul>
+        <li>Requests + Playwright 조합으로 30분 간격 데이터 적재, 실패 시 재시도 파이프라인 구성.</li>
+        <li>Airflow DAG에서 추출 &rarr; 정제 &rarr; 적재 작업을 코드로 관리, Dagster로 이관 준비 중.</li>
+        <li>Prometheus에 주요 크롤링 지표(<code>etl_success_total</code>, <code>records_per_run</code>)를 전송 후 Grafana 대시보드로 시각화.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>발표 슬라이드 &amp; 데모 영상</h2>
+      <p>
+        <a href="https://github.com/dslee1371/talks/blob/main/naver-realestate-streamlit-meetup.pdf" target="_blank" rel="noreferrer">Seoul Data Meetup 2024 슬라이드</a>
+        와
+        <a href="https://youtu.be/3e-realestate-demo" target="_blank" rel="noreferrer">데모 영상</a>
+        으로 파이프라인을 소개했습니다.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>현업 활용 피드백</h2>
+      <blockquote>
+        “주간 보고서 자동화 덕분에 수작업 스크린샷 캡처 시간이 완전히 사라졌습니다. 데이터 품질도 안정적입니다.”<br />
+        <small>— 박모씨, 프롭테크 리서치팀 매니저</small>
+      </blockquote>
+    </section>
+  </body>
+</html>

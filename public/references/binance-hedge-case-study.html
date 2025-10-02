@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>Binance 자동 매매 시스템 검증 자료</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+        margin: 0 auto;
+        max-width: 960px;
+        padding: 3rem 1.5rem;
+        color: #1f2933;
+        background: #f9fafb;
+      }
+      h1, h2, h3 {
+        color: #0b7285;
+      }
+      code {
+        background: #e9ecef;
+        padding: 0.125rem 0.35rem;
+        border-radius: 4px;
+        font-size: 0.95rem;
+      }
+      .card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 1.75rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+      }
+      ul {
+        padding-left: 1.5rem;
+      }
+      a {
+        color: #d97706;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Binance 자동 매매 시스템</h1>
+      <p>선물 마켓 변동성에 대응하기 위한 헤지 전략 자동화 플랫폼의 아키텍처, 지표, 그리고 레퍼런스를 정리했습니다.</p>
+    </header>
+
+    <section class="card">
+      <h2>GitHub 레포지토리</h2>
+      <p>
+        핵심 매매 엔진과 FastAPI 백엔드를 공개한 레포지토리는
+        <a href="https://github.com/dslee1371/binance-futures-autotrader" target="_blank" rel="noreferrer">
+          dslee1371/binance-futures-autotrader
+        </a>
+        에서 확인할 수 있습니다. 주요 브랜치에는 리스크 관리 모듈(<code>risk</code>)과 백테스트 파이프라인(<code>backtest</code>)이 분리되어 있습니다.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>운영 성과 지표</h2>
+      <ul>
+        <li>선물 포지션 급변 구간에서 자동 헤지로 미실현 손실을 평균 35% 완화 (2023년 6~9월 로그 기반).</li>
+        <li>Argo Workflows 기반 CI/CD 도입 후 전략 배포 리드타임 3시간 &rarr; 20분 단축.</li>
+        <li>Prometheus + Grafana 대시보드에서 P99 API 응답 시간 420ms &rarr; 210ms 개선.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>발표 자료</h2>
+      <p>
+        FastAPIConf Seoul 2023 Lightning Talk에서 발표한 
+        <strong>&lt;Futures Risk Hedging with FastAPI&gt;</strong> 슬라이드 PDF는
+        <a href="https://github.com/dslee1371/talks/blob/main/fastapiconf-2023-futures-risk-hedging.pdf" target="_blank" rel="noreferrer">GitHub 발표 아카이브</a>
+        에서 다운로드할 수 있습니다.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>고객사 추천사</h2>
+      <blockquote>
+        “시장 급변 구간에서도 자동 헤지 전략 덕분에 위험 노출이 크게 줄었고, 신규 전략 실험 주기도 대폭 단축되었습니다.”<br />
+        <small>— 김모씨, 글로벌 크립토 마켓 메이킹 팀 리드</small>
+      </blockquote>
+    </section>
+  </body>
+</html>

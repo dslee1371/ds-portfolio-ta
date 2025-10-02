@@ -31,7 +31,7 @@ export default function ContactSection() {
               </a>
             </Button>
             <Button asChild variant="outline" className="rounded-2xl">
-              <a href="#" target="_blank" rel="noreferrer">
+              <a href="https://www.linkedin.com/in/dslee1371/" target="_blank" rel="noreferrer">
                 <Linkedin className="mr-2 h-4 w-4" aria-hidden="true" />LinkedIn
               </a>
             </Button>
